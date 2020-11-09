@@ -23,16 +23,39 @@
     </div>
 </div>
 
-@*@foreach (var subject in Model.Subjects)
-    {
-        <div class="panel panel-default">
-            <div class="panel-heading"><strong>@subject.Title</strong></div>
-            <div class="panel-body">
-                @subject.Content
-                <br />
-            </div>
-            <div class="panel-footer">
-                <a class="btn btn-success btn-sm" href="/Subjects/Show/@subject.SubjectID">Afisare subiect</a>
-            </div>
+@if (ViewBag.Message != null)
+{
+    @:<div class="alert alert-info" role="alert">
+        @ViewBag.Message
+    @:</div>
+}
+
+@foreach (var reply in Model.Replies)
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @reply.Content
+            <div class="pull-right"><small>@reply.Date</small></div>
+            <br />
         </div>
-    }*@
+        <div class="panel-footer">
+            <a class="btn btn-success btn-sm" href="/Replies/Edit/@reply.ReplyID">Editeaza comentariu</a>
+            <form method="post" class="pull-right" action="/Replies/Delete/@reply.ReplyID">
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                <button class="btn btn-danger btn-sm" type="submit">Sterge comentariu</button>
+            </form>
+        </div>
+    </div>
+}
+
+<form method="post" action="/Replies/New/@Model.SubjectID">
+    <div class="panel-body">
+        <input type="hidden" name="SubjectID" value="@Model.SubjectID" />
+        <label>Continut comentariu</label>
+        <br />
+        <textarea class="form-control" name="Content"></textarea>
+        <br />
+        <button class="btn btn-success " type="submit">Adauga comentariu</button>
+    </div>
+</form>
+

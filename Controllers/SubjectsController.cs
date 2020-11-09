@@ -21,6 +21,10 @@ namespace OpenDiscussionPlatform.Controllers
         public ActionResult Show(int id)
         {
             Subject subject = db.Subjects.Find(id);
+            if (TempData.ContainsKey("message"))
+            {
+                ViewBag.Message = TempData["message"];
+            }
             return View(subject);
         }
 

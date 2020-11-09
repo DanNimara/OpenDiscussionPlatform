@@ -9,7 +9,7 @@ namespace OpenDiscussionPlatform.Models
     public class Reply
     {
         [Key]
-        public int CommentID { get; set; }
+        public int ReplyID { get; set; }
         [Required]
         public string Content { get; set; }
         public DateTime Date { get; set; }

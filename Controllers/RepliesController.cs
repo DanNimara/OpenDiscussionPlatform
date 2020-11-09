@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenDiscussionPlatform.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,13 +9,32 @@ namespace OpenDiscussionPlatform.Controllers
 {
     public class RepliesController : Controller
     {
-        // GET: Replies
+        private Models.AppContext db = new Models.AppContext();
+
+        // GET: Subjects
         public ActionResult Index()
         {
             return View();
         }
 
-
+        //POST: New
+        [HttpPost]
+        public ActionResult New(int id, Reply reply)
+        {
+            reply.Date = DateTime.Now;
+            reply.SubjectID = id;
+            try
+            {
+                db.Replies.Add(reply);
+                db.SaveChanges();
+                TempData["message"] = "Comentariul a fost adaugat cu succes!";
+                return Redirect("/Subjects/Show/" + reply.SubjectID);
+            }
+            catch (Exception)
+            {
+                return Redirect("/Subjects/Show/" + reply.SubjectID);
+            }
+        }
 
         // GET: Edit
         public ActionResult Edit(int id)
@@ -56,6 +76,7 @@ namespace OpenDiscussionPlatform.Controllers
             db.SaveChanges();
             TempData["message"] = "Raspunsul a fost sters cu succes!";
             return Redirect("/Subjects/Show/" + reply.SubjectID);
+
         }
     }
 }
