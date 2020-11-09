@@ -1,0 +1,38 @@
+﻿@model OpenDiscussionPlatform.Models.Subject
+
+<h1>Afisare subiect</h1>
+
+
+<a class="btn btn-primary pull-left" href="/Categories/Show/@Model.CategoryID">Inapoi la subiecte</a>
+<br />
+<br />
+
+<div class="panel panel-default">
+    <div class="panel-heading">@Model.Title</div>
+    <div class="panel-body">
+        @Model.Content
+        <br />
+        <hr />
+        <a class="btn btn-warning pull-left" href="/Subjects/Edit/@Model.SubjectID">Editeaza subiect</a>
+
+
+        <form method="post" action="/Subjects/Delete/@Model.SubjectID">
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <button class="btn btn-danger pull-right" type="submit">Sterge subiect</button>
+        </form>
+    </div>
+</div>
+
+@*@foreach (var subject in Model.Subjects)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading"><strong>@subject.Title</strong></div>
+            <div class="panel-body">
+                @subject.Content
+                <br />
+            </div>
+            <div class="panel-footer">
+                <a class="btn btn-success btn-sm" href="/Subjects/Show/@subject.SubjectID">Afisare subiect</a>
+            </div>
+        </div>
+    }*@

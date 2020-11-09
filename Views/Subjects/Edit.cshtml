@@ -1,0 +1,26 @@
+﻿@model OpenDiscussionPlatform.Models.Subject
+@{
+    ViewBag.Title = "Editeaza subiect";
+}
+
+<h1>@ViewBag.Title</h1>
+
+
+<form method="post" action="/Subjects/Edit/@Model.SubjectID">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+
+    @Html.Hidden("SubjectID")
+
+    @Html.Label("Title", "Titlu subiect")
+    <br />
+    @Html.Editor("Title")
+
+    <br /><br />
+
+    @Html.Label("Content", "Continut categorie")
+    <br />
+    @Html.Editor("Content")
+    <br /><br />
+
+    <button class="btn btn-success" type="submit">Modifica</button>
+</form>

@@ -1,0 +1,30 @@
+﻿@model OpenDiscussionPlatform.Models.Category
+@{
+        ViewBag.Title = "Editeaza categorie";
+}
+
+<h1>@ViewBag.Title</h1>
+
+
+<form method="post" action="/Categories/Edit/@Model.CategoryID">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+
+    @Html.Hidden("CategoryID")
+
+    @Html.Label("Name", "Nume categorie")
+    <br />
+    @Html.Editor("Name")
+
+    <br /><br />
+
+    @*@Html.Label("Name", "Nume categorie")
+        @Html.TextBox("Name", Model.Name, new {​​​​ @class = "form-control" }​​​​)
+        <br />*@
+
+    @Html.Label("Description", "Descriere categorie")
+    <br />
+    @Html.Editor("Description")
+    <br /><br />
+
+    <button class="btn btn-success" type="submit">Modifica</button>
+</form>
