@@ -1,6 +1,6 @@
 ﻿@model OpenDiscussionPlatform.Models.Category
 @{
-        ViewBag.Title = "Editeaza categorie";
+    ViewBag.Title = "Editeaza " + Model.Name;
 }
 
 <h1>@ViewBag.Title</h1>
@@ -11,20 +11,20 @@
 
     @Html.Hidden("CategoryID")
 
+
     @Html.Label("Name", "Nume categorie")
     <br />
     @Html.Editor("Name")
+    <br />
+    <br />
 
-    <br /><br />
-
-    @*@Html.Label("Name", "Nume categorie")
-        @Html.TextBox("Name", Model.Name, new {​​​​ @class = "form-control" }​​​​)
-        <br />*@
 
     @Html.Label("Description", "Descriere categorie")
     <br />
     @Html.Editor("Description")
-    <br /><br />
+    <br />
+    <br />
+
 
     <button class="btn btn-success" type="submit">Modifica</button>
 </form>

@@ -1,9 +1,9 @@
 ﻿@model OpenDiscussionPlatform.Models.Subject
 @{
-    ViewBag.Title = "Editeaza subiect";
+    ViewBag.Title = Model.Title.ToString();
 }
 
-<h1>@ViewBag.Title</h1>
+<h1>Editeaza @Model.Title</h1>
 
 
 <form method="post" action="/Subjects/Edit/@Model.SubjectID">
@@ -11,16 +11,25 @@
 
     @Html.Hidden("SubjectID")
 
+
     @Html.Label("Title", "Titlu subiect")
     <br />
     @Html.Editor("Title")
+    <br />
+    <br />
 
-    <br /><br />
 
-    @Html.Label("Content", "Continut categorie")
+    @Html.Label("Content", "Continut subiect")
     <br />
     @Html.Editor("Content")
-    <br /><br />
+    <br />
+    <br />
+
+    @Html.Hidden("Date")
+
+
+    @Html.Hidden("CategoryID")
+
 
     <button class="btn btn-success" type="submit">Modifica</button>
 </form>

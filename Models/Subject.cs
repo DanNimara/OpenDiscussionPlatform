@@ -16,12 +16,10 @@ namespace OpenDiscussionPlatform.Models
         [Required]
         public string Content { get; set; }
         public DateTime Date { get; set; }
-
         public int CategoryID { get; set; }
+
         public virtual Category Category { get; set; }
         public virtual ICollection<Reply> Replies { get; set; }
-        
-        //public IEnumerable<SelectListItem> Categ { get; set;  }
-        //UserID, DelByMod
+        //DelByMod, UserID
     }
 }

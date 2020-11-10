@@ -1,26 +1,28 @@
 ﻿@model OpenDiscussionPlatform.Models.Category
-
 @{
     ViewBag.Title = Model.Name.ToString();
 }
 
-<h1>Afisare categorie</h1>
+<h1>@ViewBag.Title</h1>
 
 
 <a class="btn btn-primary" href="/Categories/Index">Inapoi la categorii</a>
-<a class="btn btn-success" href="/Subjects/New/@Model.CategoryID">Adauga subiect</a>
 <br />
 <br />
+
+
 <div class="panel panel-default">
-    <div class="panel-heading">@Model.Name</div>
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>@Model.Name</strong></h3>
+    </div>
     <div class="panel-body">
-        Descriere categorie: <strong>@Model.Description</strong>
-        <br />
-        <hr />
-        <a class="btn btn-success pull-left" href="/Categories/Edit/@Model.CategoryID">Modifica categorie</a>
-        <form method="post" action="/Categories/Delete/@Model.CategoryID">
+        @Model.Description
+    </div>
+    <div class="panel-footer">
+        <a class="btn btn-warning" href="/Categories/Edit/@Model.CategoryID">Editeaza categorie</a>
+        <form class="pull-right" method="post" action="/Categories/Delete/@Model.CategoryID">
             @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button class="btn btn-danger pull-right" type="submit">Sterge categorie</button>
+            <button class="btn btn-danger" type="submit">Sterge categorie</button>
         </form>
     </div>
 </div>
@@ -32,13 +34,18 @@
     @:</div>
 }
 
+<a class="btn btn-primary" href="/Subjects/New/@Model.CategoryID">Subiect nou</a>
+<br />
+<br />
+
 @foreach (var subject in Model.Subjects)
 {
     <div class="panel panel-default">
-        <div class="panel-heading"><strong>@subject.Title</strong></div>
+        <div class="panel-heading">
+            <h3 class="panel-title"><strong>@subject.Title</strong></h3>
+        </div>
         <div class="panel-body">
             @subject.Content
-            <br />
         </div>
         <div class="panel-footer">
             <a class="btn btn-success btn-sm" href="/Subjects/Show/@subject.SubjectID">Afisare subiect</a>

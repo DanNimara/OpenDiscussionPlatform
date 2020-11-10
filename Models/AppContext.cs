@@ -10,8 +10,7 @@ namespace OpenDiscussionPlatform.Models
     {
         public AppContext() : base("DBConnectionString")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AppContext,
-        OpenDiscussionPlatform.Migrations.Configuration>("DBConnectionString"));
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AppContext, OpenDiscussionPlatform.Migrations.Configuration>("DBConnectionString"));
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Subject> Subjects { get; set; }

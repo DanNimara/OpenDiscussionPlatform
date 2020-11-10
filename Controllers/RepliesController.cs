@@ -11,23 +11,25 @@ namespace OpenDiscussionPlatform.Controllers
     {
         private Models.AppContext db = new Models.AppContext();
 
+
         // GET: Subjects
         public ActionResult Index()
         {
             return View();
         }
 
-        //POST: New
+
+        // POST: New
         [HttpPost]
         public ActionResult New(int id, Reply reply)
         {
-            reply.Date = DateTime.Now;
             reply.SubjectID = id;
+            reply.Date = DateTime.Now;
             try
             {
                 db.Replies.Add(reply);
                 db.SaveChanges();
-                TempData["message"] = "Comentariul a fost adaugat cu succes!";
+                TempData["message"] = "Raspunsul a fost adaugat!";
                 return Redirect("/Subjects/Show/" + reply.SubjectID);
             }
             catch (Exception)
@@ -36,11 +38,11 @@ namespace OpenDiscussionPlatform.Controllers
             }
         }
 
+
         // GET: Edit
         public ActionResult Edit(int id)
         {
             Reply reply = db.Replies.Find(id);
-
             return View(reply);
         }
 
@@ -58,7 +60,6 @@ namespace OpenDiscussionPlatform.Controllers
                     TempData["message"] = "Raspunsul a fost modificat!";
                     return Redirect("/Subjects/Show/" + reply.SubjectID);
                 }
-
                 return View(requestReply);
             }
             catch (Exception)
@@ -67,6 +68,7 @@ namespace OpenDiscussionPlatform.Controllers
             }
         }
 
+
         // DELETE: Delete
         [HttpDelete]
         public ActionResult Delete(int id)
@@ -74,7 +76,7 @@ namespace OpenDiscussionPlatform.Controllers
             var reply = db.Replies.Find(id);
             db.Replies.Remove(reply);
             db.SaveChanges();
-            TempData["message"] = "Raspunsul a fost sters cu succes!";
+            TempData["message"] = "Raspunsul a fost sters!";
             return Redirect("/Subjects/Show/" + reply.SubjectID);
 
         }

@@ -1,24 +1,28 @@
 ﻿@model OpenDiscussionPlatform.Models.Subject
+@{
+    ViewBag.Title = Model.Title.ToString();
+}
 
-<h1>Afisare subiect</h1>
+<h1>@ViewBag.Title</h1>
 
 
-<a class="btn btn-primary pull-left" href="/Categories/Show/@Model.CategoryID">Inapoi la subiecte</a>
+<a class="btn btn-primary" href="/Categories/Show/@Model.CategoryID">Inapoi la subiecte</a>
 <br />
 <br />
+
 
 <div class="panel panel-default">
-    <div class="panel-heading">@Model.Title</div>
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>@Model.Title</strong></h3>
+    </div>
     <div class="panel-body">
         @Model.Content
-        <br />
-        <hr />
-        <a class="btn btn-warning pull-left" href="/Subjects/Edit/@Model.SubjectID">Editeaza subiect</a>
-
-
-        <form method="post" action="/Subjects/Delete/@Model.SubjectID">
+    </div>
+    <div class="panel-footer">
+        <a class="btn btn-warning" href="/Subjects/Edit/@Model.SubjectID">Editeaza subiect</a>
+        <form class="pull-right" method="post" action="/Subjects/Delete/@Model.SubjectID">
             @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button class="btn btn-danger pull-right" type="submit">Sterge subiect</button>
+            <button class="btn btn-danger" type="submit">Sterge subiect</button>
         </form>
     </div>
 </div>
@@ -35,14 +39,14 @@
     <div class="panel panel-default">
         <div class="panel-body">
             @reply.Content
-            <div class="pull-right"><small>@reply.Date</small></div>
             <br />
+            <div class="pull-right"><small>@reply.Date</small></div>
         </div>
         <div class="panel-footer">
-            <a class="btn btn-success btn-sm" href="/Replies/Edit/@reply.ReplyID">Editeaza comentariu</a>
+            <a class="btn btn-warning btn-sm" href="/Replies/Edit/@reply.ReplyID">Editeaza</a>
             <form method="post" class="pull-right" action="/Replies/Delete/@reply.ReplyID">
                 @Html.HttpMethodOverride(HttpVerbs.Delete)
-                <button class="btn btn-danger btn-sm" type="submit">Sterge comentariu</button>
+                <button class="btn btn-danger btn-sm" type="submit">Sterge</button>
             </form>
         </div>
     </div>
@@ -50,12 +54,14 @@
 
 <form method="post" action="/Replies/New/@Model.SubjectID">
     <div class="panel-body">
-        <input type="hidden" name="SubjectID" value="@Model.SubjectID" />
-        <label>Continut comentariu</label>
+        <label for="Content">Continut raspuns</label>
+        <textarea class="form-control" id="Content" name="Content"></textarea>
         <br />
-        <textarea class="form-control" name="Content"></textarea>
-        <br />
-        <button class="btn btn-success " type="submit">Adauga comentariu</button>
+
+
+        <input  name="SubjectID" type="hidden" value="@Model.SubjectID" />
+
+
+        <button class="btn btn-success " type="submit">Adauga raspuns</button>
     </div>
 </form>
-

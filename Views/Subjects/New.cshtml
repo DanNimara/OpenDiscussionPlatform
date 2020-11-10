@@ -3,23 +3,27 @@
     ViewBag.Title = "Subiect nou";
 }
 
-<h1>Adaugare subiect</h1>
+<h1>@ViewBag.Title</h1>
 
 <form method="post" action="/Subjects/New">
+
     @Html.Label("Title", "Titlu subiect")
     @Html.TextBox("Title", null, new { @class = "form-control" })
     <br />
-    
+
+
     @Html.Label("Content", "Continut subiect")
     @Html.TextArea("Content", null, new { @class = "form-control" })
     <br />
 
-    @Html.Label("Category", "Categorie")
-    <input class="form-control" id=" Category" type="text" value="@ViewBag.CategoryName" readonly>
-    <br />
 
     @Html.Hidden("CategoryID")
 
-    <button class="btn btn-success" type="submit">Adauga subiect</button>
 
+    @Html.Label("Category", "Categorie")
+    <input class="form-control" id="Category" type="text" value="@ViewBag.CategoryName" readonly>
+    <br />
+
+
+    <button class="btn btn-success" type="submit">Adauga</button>
 </form>

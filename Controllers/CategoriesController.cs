@@ -11,6 +11,7 @@ namespace OpenDiscussionPlatform.Controllers
     {
         private Models.AppContext db = new Models.AppContext();
 
+
         // GET: Subjects
         public ActionResult Index()
         {
@@ -23,6 +24,8 @@ namespace OpenDiscussionPlatform.Controllers
             return View();
         }
 
+
+        // GET: Show
         public ActionResult Show(int id)
         {
             Category category = db.Categories.Find(id);
@@ -33,13 +36,15 @@ namespace OpenDiscussionPlatform.Controllers
             return View(category);
         }
 
+
+        // GET: New
         public ActionResult New()
         {
             Category category = new Category();
-
             return View(category);
         }
 
+        // POST: New
         [HttpPost]
         public ActionResult New(Category category)
         {
@@ -47,23 +52,24 @@ namespace OpenDiscussionPlatform.Controllers
             {
                 db.Categories.Add(category);
                 db.SaveChanges();
-                TempData["message"] = "Categoria a fost adaugata cu succes!";
+                TempData["message"] = "Categoria a fost adaugata!";
                 return RedirectToAction("Index");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return View(category);
             }
         }
 
+
+        // GET: Edit
         public ActionResult Edit(int id)
         {
             Category category = db.Categories.Find(id);
-            
             return View(category);
         }
 
-        //PUT: Edit
+        // PUT: Edit
         [HttpPut]
         public ActionResult Edit(int id, Category requestCategory)
         {
@@ -75,7 +81,7 @@ namespace OpenDiscussionPlatform.Controllers
                     category.Name = requestCategory.Name;
                     category.Description = requestCategory.Description;
                     db.SaveChanges();
-                    TempData["message"] = "Categoria a fost modificata!";
+                    TempData["message"] = "Categoria a fost editata!";
                     return RedirectToAction("Index");
                 }
                 return View(requestCategory);
@@ -86,6 +92,7 @@ namespace OpenDiscussionPlatform.Controllers
             }
         }
 
+
         //DELETE: Delete
         [HttpDelete]
         public ActionResult Delete(int id)
@@ -93,31 +100,8 @@ namespace OpenDiscussionPlatform.Controllers
             var category = db.Categories.Find(id);
             db.Categories.Remove(category);
             db.SaveChanges();
-            TempData["message"] = "Categoria a fost stearsa cu succes!";
+            TempData["message"] = "Categoria a fost stearsa!";
             return RedirectToAction("Index");
         }
-
-        /*
-        [NonAction]
-        public IEnumerable<SelectListItem> GetAllCategories()
-        {
-            //generam o lista goala
-            var selectList = new List<SelectListItem>();
-            //extragem toate categoriile din baza de date
-            var categories = from cat in db.Categories
-                             select cat;
-            //iteram prin categorii
-            foreach (var category in categories)
-            {
-                //adaugam in lista elementele necesare pentru dropdown
-                selectList.Add(new SelectListItem
-                {
-                    Value = category.CategoryID.ToString(),
-                    Text = category.Name.ToString()
-                });
-            }
-            return selectList;
-        }
-        */
     }
 }

@@ -19,14 +19,15 @@
 
 @foreach (var category in ViewBag.Categories)
 {
-<div class="panel panel-default">
-    <div class="panel-heading"><strong>@category.Name</strong></div>
-    <div class="panel-body">
-        @category.Description
-        <br />
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><strong>@category.Name</strong></h3>
+        </div>
+        <div class="panel-body">
+            @category.Description
+        </div>
+        <div class="panel-footer">
+            <a class="btn btn-success btn-sm" href="/Categories/Show/@category.CategoryID">Afisare categorie</a>
+        </div>
     </div>
-    <div class="panel-footer">
-        <a class="btn btn-success btn-sm" href="/Categories/Show/@category.CategoryID">Afisare categorie</a>
-    </div>
-</div>
-}​​​​
+}

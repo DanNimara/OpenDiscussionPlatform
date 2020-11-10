@@ -15,5 +15,6 @@ namespace OpenDiscussionPlatform.Models
         public string Description { get; set; }
 
         public virtual ICollection<Subject> Subjects { get; set; }
+        //AdminID
     }
 }
