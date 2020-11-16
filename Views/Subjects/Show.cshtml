@@ -12,26 +12,23 @@
 
 
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title"><strong>@Model.Title</strong></h3>
-    </div>
-    <div class="panel-body">
-        @Model.Content
-    </div>
+    @Html.Partial("SubjectInfo", Model)
+
     <div class="panel-footer">
         <a class="btn btn-warning" href="/Subjects/Edit/@Model.SubjectID">Editeaza subiect</a>
-        <form class="pull-right" method="post" action="/Subjects/Delete/@Model.SubjectID">
+        @using (Html.BeginForm(actionName: "Delete", controllerName: "Subjects", routeValues: new { id = Model.SubjectID }, method: FormMethod.Post, htmlAttributes: new { @class = "pull-right" }))
+        {
             @Html.HttpMethodOverride(HttpVerbs.Delete)
             <button class="btn btn-danger" type="submit">Sterge subiect</button>
-        </form>
+        }
     </div>
 </div>
 
 @if (ViewBag.Message != null)
 {
-    @:<div class="alert alert-info" role="alert">
+    <div class="alert alert-success" role="alert">
         @ViewBag.Message
-    @:</div>
+    </div>
 }
 
 @foreach (var reply in Model.Replies)
@@ -59,7 +56,7 @@
         <br />
 
 
-        <input  name="SubjectID" type="hidden" value="@Model.SubjectID" />
+        <input name="SubjectID" type="hidden" value="@Model.SubjectID" />
 
 
         <button class="btn btn-success " type="submit">Adauga raspuns</button>

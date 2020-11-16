@@ -48,10 +48,19 @@ namespace OpenDiscussionPlatform.Controllers
             subject.Date = DateTime.Now;
             try
             {
-                db.Subjects.Add(subject);
-                db.SaveChanges();
-                TempData["message"] = "Subiectul a fost adaugat!";
-                return Redirect("/Categories/Show/" + subject.CategoryID);
+                if (ModelState.IsValid)
+                {
+                    db.Subjects.Add(subject);
+                    db.SaveChanges();
+                    TempData["message"] = "Subiectul a fost adaugat!";
+                    return Redirect("/Categories/Show/" + subject.CategoryID);
+                }
+                else
+                {
+                    var category = db.Categories.Find(subject.CategoryID);
+                    ViewBag.CategoryName = category.Name;
+                    return View(subject);
+                }
             }
             catch (Exception)
             {
@@ -66,6 +75,8 @@ namespace OpenDiscussionPlatform.Controllers
         public ActionResult Edit(int id)
         {
             Subject subject = db.Subjects.Find(id);
+            var category = db.Categories.Find(subject.CategoryID);
+            ViewBag.CategoryName = category.Name;
             return View(subject);
         }
 
@@ -75,20 +86,25 @@ namespace OpenDiscussionPlatform.Controllers
         {
             try
             {
-                var subject = db.Subjects.Find(id);
-                if (TryUpdateModel(subject))
-                {
-                    subject.Title = requestSubject.Title;
-                    subject.Content = requestSubject.Content;
-                    db.SaveChanges();
-                    TempData["message"] = "Subiectul a fost modificat!";
-                    return Redirect("/Categories/Show/" + subject.CategoryID);
+                if (ModelState.IsValid) {
+                    var subject = db.Subjects.Find(id);
+                    if (TryUpdateModel(subject))
+                    {
+                        subject.Title = requestSubject.Title;
+                        subject.Content = requestSubject.Content;
+                        db.SaveChanges();
+                        TempData["message"] = "Subiectul a fost modificat!";
+                        return Redirect("/Categories/Show/" + subject.CategoryID);
+                    }
                 }
-
+                var category = db.Categories.Find(requestSubject.CategoryID);
+                ViewBag.CategoryName = category.Name;
                 return View(requestSubject);
             }
             catch (Exception)
             {
+                var category = db.Categories.Find(requestSubject.CategoryID);
+                ViewBag.CategoryName = category.Name;
                 return View(requestSubject);
             }
         }

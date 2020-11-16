@@ -1,35 +1,48 @@
 ﻿@model OpenDiscussionPlatform.Models.Subject
 @{
-    ViewBag.Title = Model.Title.ToString();
+    if (Model.Title != null)
+    {
+        ViewBag.Title = Model.Title.ToString();
+    }
+    else
+    {
+        ViewBag.Title = "Editeaza subiect de discutie";
+    }
+
 }
 
 <h1>Editeaza @Model.Title</h1>
 
 
-<form method="post" action="/Subjects/Edit/@Model.SubjectID">
+@using (Html.BeginForm(actionName: "Edit", controllerName: "Subjects"))
+{
     @Html.HttpMethodOverride(HttpVerbs.Put)
+
+    @Html.ValidationSummary(false, null, new { @class = "text-danger" })
 
     @Html.Hidden("SubjectID")
 
+    <div class="form-group">
+        @Html.Label("Title", "Titlu subiect")
+        @Html.Editor("Title", new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessage("Title", null, new { @class = "text-danger" })
+    </div>
 
-    @Html.Label("Title", "Titlu subiect")
-    <br />
-    @Html.Editor("Title")
-    <br />
-    <br />
-
-
-    @Html.Label("Content", "Continut subiect")
-    <br />
-    @Html.Editor("Content")
-    <br />
-    <br />
+    <div class="form-group">
+        @Html.Label("Content", "Continut subiect")
+        @Html.Editor("Content", new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+    </div>
 
     @Html.Hidden("Date")
 
-
     @Html.Hidden("CategoryID")
 
+    <div class="form-group">
+        @Html.Label("Category", "Categorie")
+        <input class="form-control" id="Category" type="text" value="@ViewBag.CategoryName" readonly>
+        @Html.ValidationMessage("Category", null, new { @class = "text-danger" })
+    </div>
 
     <button class="btn btn-success" type="submit">Modifica</button>
-</form>
+}

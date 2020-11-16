@@ -5,25 +5,30 @@
 
 <h1>@ViewBag.Title</h1>
 
-<form method="post" action="/Subjects/New">
 
-    @Html.Label("Title", "Titlu subiect")
-    @Html.TextBox("Title", null, new { @class = "form-control" })
-    <br />
+@using (Html.BeginForm(actionName: "New", controllerName: "Subjects"))
+{
+    @Html.ValidationSummary(false, null, new { @class = "text-danger" })
 
+    <div class="form-group">
+        @Html.Label("Title", "Titlu subiect")
+        @Html.TextBox("Title", null, new { @class = "form-control" })
+        @Html.ValidationMessage("Title", null, new { @class = "text-danger" })
+    </div>
 
-    @Html.Label("Content", "Continut subiect")
-    @Html.TextArea("Content", null, new { @class = "form-control" })
-    <br />
-
+    <div class="form-group">
+        @Html.Label("Content", "Continut subiect")
+        @Html.TextArea("Content", null, new { @class = "form-control", @rows = "4" })
+        @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+    </div>
 
     @Html.Hidden("CategoryID")
 
-
-    @Html.Label("Category", "Categorie")
-    <input class="form-control" id="Category" type="text" value="@ViewBag.CategoryName" readonly>
-    <br />
-
+    <div class="form-group">
+        @Html.Label("Category", "Categorie")
+        <input class="form-control" id="Category" type="text" value="@ViewBag.CategoryName" readonly>
+        @Html.ValidationMessage("Category", null, new { @class = "text-danger" })
+    </div>
 
     <button class="btn btn-success" type="submit">Adauga</button>
-</form>
+}
