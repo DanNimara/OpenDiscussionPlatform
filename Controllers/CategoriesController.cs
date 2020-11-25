@@ -50,10 +50,17 @@ namespace OpenDiscussionPlatform.Controllers
         {
             try
             {
-                db.Categories.Add(category);
-                db.SaveChanges();
-                TempData["message"] = "Categoria a fost adaugata!";
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Categories.Add(category);
+                    db.SaveChanges();
+                    TempData["message"] = "Categoria a fost adaugata!";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(category);
+                }
             }
             catch (Exception)
             {
@@ -75,16 +82,27 @@ namespace OpenDiscussionPlatform.Controllers
         {
             try
             {
-                var category = db.Categories.Find(id);
-                if (TryUpdateModel(category))
+                if (ModelState.IsValid)
                 {
-                    category.Name = requestCategory.Name;
-                    category.Description = requestCategory.Description;
-                    db.SaveChanges();
-                    TempData["message"] = "Categoria a fost editata!";
-                    return RedirectToAction("Index");
+                    var category = db.Categories.Find(id);
+                    if (TryUpdateModel(category))
+                    {
+                        category.Name = requestCategory.Name;
+                        category.Description = requestCategory.Description;
+                        db.SaveChanges();
+                        TempData["message"] = "Categoria a fost editata!";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        return View(requestCategory);
+                    }
+                    
                 }
-                return View(requestCategory);
+                else
+                {
+                    return View(requestCategory);
+                }
             }
             catch (Exception)
             {

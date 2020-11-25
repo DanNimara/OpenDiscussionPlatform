@@ -5,26 +5,26 @@
 
 <h1>@ViewBag.Title</h1>
 
+@using (Html.BeginForm(actionName: "Edit", controllerName: "Categories"))
+{
 
-<form method="post" action="/Categories/Edit/@Model.CategoryID">
     @Html.HttpMethodOverride(HttpVerbs.Put)
+
+    @Html.ValidationSummary(false, null, new { @class = "text-danger" })
 
     @Html.Hidden("CategoryID")
 
+    <div class="form-group">
+        @Html.Label("Name", "Nume categorie")
+        @Html.Editor("Name")
+        @Html.ValidationMessage("Name", null, new { @class = "text-danger" })
+    </div>
 
-    @Html.Label("Name", "Nume categorie")
-    <br />
-    @Html.Editor("Name")
-    <br />
-    <br />
-
-
-    @Html.Label("Description", "Descriere categorie")
-    <br />
-    @Html.Editor("Description")
-    <br />
-    <br />
-
+    <div class="form-group">
+        @Html.Label("Description", "Descriere categorie")
+        @Html.Editor("Description")
+    </div>
 
     <button class="btn btn-success" type="submit">Modifica</button>
-</form>
+
+}

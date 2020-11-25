@@ -10,7 +10,7 @@ namespace OpenDiscussionPlatform.Models
     {
         [Key]
         public int ReplyID { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Continutul raspunsului este obligatoriu!")]
         public string Content { get; set; }
         public DateTime Date { get; set; }
         public int SubjectID { get; set; }

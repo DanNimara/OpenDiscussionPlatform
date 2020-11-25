@@ -5,17 +5,20 @@
 
 <h1>@ViewBag.Title</h1>
 
-<form method="post" action="/Categories/New">
+@using (Html.BeginForm(actionName: "New", controllerName: "Categories"))
+{
+    @Html.ValidationSummary(false, null, new { @class = "text-danger" })
 
+    <div class="form-group">
     @Html.Label("Name", "Nume categorie")
     @Html.TextBox("Name", null, new { @class = "form-control" })
-    <br />
+    @Html.ValidationMessage("Name", null, new { @class = "text-danger"})
+    </div>
 
-
+    <div class="form-group">
     @Html.Label("Description", "Descriere categorie")
     @Html.TextArea("Description", null, new { @class = "form-control" })
-    <br />
+    </div>
 
-
-    <button class="btn btn-success" type="submit">Adauga</button>
-</form>
+    <button class="btn btn-success" type="submit">Adauga categorie</button>
+}

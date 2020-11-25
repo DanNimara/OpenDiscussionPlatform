@@ -49,16 +49,20 @@
     </div>
 }
 
-<form method="post" action="/Replies/New/@Model.SubjectID">
+@using (Html.BeginForm(actionName: "New", controllerName: "Replies", routeValues: new { id = @Model.SubjectID }))
+{
+
+    @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+
     <div class="panel-body">
-        <label for="Content">Continut raspuns</label>
-        <textarea class="form-control" id="Content" name="Content"></textarea>
+        @Html.Label("Content", "Continut raspuns")
+        @Html.TextBox("Content", null, new { @class = "form-control" })
+        @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+
         <br />
 
-
-        <input name="SubjectID" type="hidden" value="@Model.SubjectID" />
-
+        @Html.Hidden("Model.SubjectID")
 
         <button class="btn btn-success " type="submit">Adauga raspuns</button>
     </div>
-</form>
+}

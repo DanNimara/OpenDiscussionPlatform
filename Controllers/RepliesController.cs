@@ -27,10 +27,17 @@ namespace OpenDiscussionPlatform.Controllers
             reply.Date = DateTime.Now;
             try
             {
-                db.Replies.Add(reply);
-                db.SaveChanges();
-                TempData["message"] = "Raspunsul a fost adaugat!";
-                return Redirect("/Subjects/Show/" + reply.SubjectID);
+                if (ModelState.IsValid)
+                {
+                    db.Replies.Add(reply);
+                    db.SaveChanges();
+                    TempData["message"] = "Raspunsul a fost adaugat!";
+                    return Redirect("/Subjects/Show/" + reply.SubjectID);
+                }
+                else
+                {
+                    return Redirect("/Subjects/Show/" + reply.SubjectID);
+                }
             }
             catch (Exception)
             {
@@ -52,15 +59,25 @@ namespace OpenDiscussionPlatform.Controllers
         {
             try
             {
-                var reply = db.Replies.Find(id);
-                if (TryUpdateModel(reply))
+                if (ModelState.IsValid)
                 {
-                    reply.Content = requestReply.Content;
-                    db.SaveChanges();
-                    TempData["message"] = "Raspunsul a fost modificat!";
-                    return Redirect("/Subjects/Show/" + reply.SubjectID);
+                    var reply = db.Replies.Find(id);
+                    if (TryUpdateModel(reply))
+                    {
+                        reply.Content = requestReply.Content;
+                        db.SaveChanges();
+                        TempData["message"] = "Raspunsul a fost modificat!";
+                        return Redirect("/Subjects/Show/" + reply.SubjectID);
+                    }
+                    else
+                    {
+                        return View(requestReply);
+                    }
                 }
-                return View(requestReply);
+                else
+                {
+                    return View(requestReply);
+                }
             }
             catch (Exception)
             {
