@@ -17,7 +17,7 @@
 
     @Html.Label("Content", "Continut raspuns")
     <br />
-    @Html.Editor("Content")
+    @Html.Editor("Content", new { htmlAttributes = new { @class = "form-control" } })
     <br />
     @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
     <br />

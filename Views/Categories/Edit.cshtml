@@ -16,13 +16,13 @@
 
     <div class="form-group">
         @Html.Label("Name", "Nume categorie")
-        @Html.Editor("Name")
+        @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessage("Name", null, new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
         @Html.Label("Description", "Descriere categorie")
-        @Html.Editor("Description")
+        @Html.Editor("Description", new { htmlAttributes = new { @class = "form-control" } })
     </div>
 
     <button class="btn btn-success" type="submit">Modifica</button>
