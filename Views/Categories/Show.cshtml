@@ -20,10 +20,11 @@
     </div>
     <div class="panel-footer">
         <a class="btn btn-warning" href="/Categories/Edit/@Model.CategoryID">Editeaza categorie</a>
-        <form class="pull-right" method="post" action="/Categories/Delete/@Model.CategoryID">
+        @using (Html.BeginForm(actionName: "Delete", controllerName: "Categories", routeValues: new { id = Model.CategoryID }, method: FormMethod.Post, htmlAttributes: new { @class = "pull-right" }))
+        {
             @Html.HttpMethodOverride(HttpVerbs.Delete)
             <button class="btn btn-danger" type="submit">Sterge categorie</button>
-        </form>
+        }
     </div>
 </div>
 
