@@ -1,0 +1,63 @@
+﻿@model OpenDiscussionPlatform.Models.Subject
+@{
+    ViewBag.Title = Model.Title.ToString();
+}
+
+<h1>@ViewBag.Title</h1>
+
+
+<a class="btn btn-primary" href="/Categories/Show/@Model.CategoryID">Inapoi la subiecte</a>
+<br />
+<br />
+
+
+<div class="panel panel-default">
+    @Html.Partial("SubjectInfo", Model)
+
+    <div class="panel-footer">
+        <a class="btn btn-warning" href="/Subjects/Edit/@Model.SubjectID">Editeaza subiect</a>
+        @using (Html.BeginForm(actionName: "Delete", controllerName: "Subjects", routeValues: new { id = Model.SubjectID }, method: FormMethod.Post, htmlAttributes: new { @class = "pull-right" }))
+        {
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <button class="btn btn-danger" type="submit">Sterge subiect</button>
+        }
+    </div>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Message
+    </div>
+}
+
+@foreach (var reply in Model.Replies)
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @reply.Content
+            <br />
+            <div class="pull-right"><small>@reply.Date</small></div>
+        </div>
+        <div class="panel-footer">
+            <a class="btn btn-warning btn-sm" href="/Replies/Edit/@reply.ReplyID">Editeaza</a>
+            <form method="post" class="pull-right" action="/Replies/Delete/@reply.ReplyID">
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                <button class="btn btn-danger btn-sm" type="submit">Sterge</button>
+            </form>
+        </div>
+    </div>
+}
+
+<form method="post" action="/Replies/New/@Model.SubjectID">
+    @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+    <div class="panel-body">
+        <label for="Content">Continut raspuns</label>
+        <textarea class="form-control" id="Content" name="Content"></textarea>
+        <br />
+
+        <input name="SubjectID" type="hidden" value="@Model.SubjectID" />
+
+        <button class="btn btn-success " type="submit">Adauga raspuns</button>
+    </div>
+</form>

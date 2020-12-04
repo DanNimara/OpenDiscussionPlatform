@@ -1,0 +1,34 @@
+﻿@model OpenDiscussionPlatform.Models.Subject
+@{
+    ViewBag.Title = "Subiect nou";
+}
+
+<h1>@ViewBag.Title</h1>
+
+
+@using (Html.BeginForm(actionName: "New", controllerName: "Subjects"))
+{
+    @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.Label("Title", "Titlu subiect")
+        @Html.TextBox("Title", null, new { @class = "form-control" })
+        @Html.ValidationMessage("Title", null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Content", "Continut subiect")
+        @Html.TextArea("Content", null, new { @class = "form-control", @rows = "4" })
+        @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+    </div>
+
+    @Html.Hidden("CategoryID")
+
+    <div class="form-group">
+        @Html.Label("Category", "Categorie")
+        <input class="form-control" id="Category" type="text" value="@ViewBag.CategoryName" readonly>
+        @Html.ValidationMessage("Category", null, new { @class = "text-danger" })
+    </div>
+
+    <button class="btn btn-success" type="submit">Adauga</button>
+}
