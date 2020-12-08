@@ -14,14 +14,28 @@
 <div class="panel panel-default">
     @Html.Partial("SubjectInfo", Model)
 
-    <div class="panel-footer">
-        <a class="btn btn-warning" href="/Subjects/Edit/@Model.SubjectID">Editeaza subiect</a>
-        @using (Html.BeginForm(actionName: "Delete", controllerName: "Subjects", routeValues: new { id = Model.SubjectID }, method: FormMethod.Post, htmlAttributes: new { @class = "pull-right" }))
-        {
-            @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button class="btn btn-danger" type="submit">Sterge subiect</button>
-        }
-    </div>
+    @if (ViewBag.currentUser == Model.UserID || ViewBag.isModerator || ViewBag.isAdmin)
+    {
+        <div class="panel-footer">
+            @if (ViewBag.currentUser == Model.UserID)
+            {
+                <a class="btn btn-warning" href="/Subjects/Edit/@Model.SubjectID">Editeaza subiect</a>
+            }
+
+            @if (ViewBag.isModerator || ViewBag.isAdmin)
+            {
+                <a class="btn btn-warning" href="/Subjects/EditCategory/@Model.SubjectID">Schimba categoria</a>
+            }
+            
+            @using (Html.BeginForm(actionName: "Delete", controllerName: "Subjects", routeValues: new { id = Model.SubjectID }, method: FormMethod.Post, htmlAttributes: new { @class = "pull-right" }))
+            {
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                <button class="btn btn-danger" type="submit">Sterge subiect</button>
+            }
+            
+            <div class="clearfix"></div>
+        </div>
+    }
 </div>
 
 @if (ViewBag.Message != null)
@@ -49,11 +63,11 @@
     </div>
 }
 
-<form method="post" action="/Replies/New/@Model.SubjectID">
-    @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+<form method="post" action="/Subjects/Show/@Model.SubjectID">
     <div class="panel-body">
         <label for="Content">Continut raspuns</label>
         <textarea class="form-control" id="Content" name="Content"></textarea>
+        @Html.ValidationMessage("Content", "", new { @class = "text-danger" })
         <br />
 
         <input name="SubjectID" type="hidden" value="@Model.SubjectID" />

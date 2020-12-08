@@ -19,32 +19,6 @@ namespace OpenDiscussionPlatform.Controllers
         }
 
 
-        // POST: New
-        [HttpPost]
-        public ActionResult New(int id, Reply reply)
-        {
-            reply.SubjectID = id;
-            reply.Date = DateTime.Now;
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    db.Replies.Add(reply);
-                    db.SaveChanges();
-                    TempData["message"] = "Raspunsul a fost adaugat!";
-                    return Redirect("/Subjects/Show/" + reply.SubjectID);
-                }
-                else
-                {
-                    return Redirect("/Subjects/Show/" + reply.SubjectID);
-                }
-            }
-            catch (Exception)
-            {
-                return Redirect("/Subjects/Show/" + reply.SubjectID);
-            }
-        }
-
 
         // GET: Edit
         public ActionResult Edit(int id)

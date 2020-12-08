@@ -22,6 +22,7 @@
     {
         <div class="panel-footer">
             <a class="btn btn-warning" href="/Categories/Edit/@Model.CategoryID">Editeaza categorie</a>
+
             @using (Html.BeginForm(actionName: "Delete", controllerName: "Categories", routeValues: new { id = Model.CategoryID }, method: FormMethod.Post, htmlAttributes: new { @class = "pull-right" }))
             {
                 @Html.HttpMethodOverride(HttpVerbs.Delete)
@@ -38,8 +39,11 @@
     </div>
 }
 
-<a class="btn btn-primary" href="/Subjects/New/@Model.CategoryID">Subiect nou</a>
-<br />
+@if (ViewBag.isUser || ViewBag.isModerator || ViewBag.isAdmin)
+{
+    <a class="btn btn-primary" href="/Subjects/New/@Model.CategoryID">Subiect nou</a>
+    <br />
+}
 <br />
 
 @foreach (OpenDiscussionPlatform.Models.Subject subject in Model.Subjects)

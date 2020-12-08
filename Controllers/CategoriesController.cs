@@ -1,4 +1,5 @@
-﻿using OpenDiscussionPlatform.Models;
+﻿using Microsoft.AspNet.Identity;
+using OpenDiscussionPlatform.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace OpenDiscussionPlatform.Controllers
             {
                 ViewBag.Message = TempData["message"];
             }
-            ViewBag.isAdmin = User.IsInRole("Admin");
+            SetAccessRights();
             return View();
         }
 
@@ -34,9 +35,7 @@ namespace OpenDiscussionPlatform.Controllers
             {
                 ViewBag.Message = TempData["message"];
             }
-
-            ViewBag.isAdmin = User.IsInRole("Admin");
-
+            SetAccessRights();
             return View(category);
         }
 
@@ -105,7 +104,6 @@ namespace OpenDiscussionPlatform.Controllers
                     {
                         return View(requestCategory);
                     }
-                    
                 }
                 else
                 {
@@ -130,5 +128,16 @@ namespace OpenDiscussionPlatform.Controllers
             TempData["message"] = "Categoria a fost stearsa!";
             return RedirectToAction("Index");
         }
+
+
+        #region Helpers
+        private void SetAccessRights()
+        {
+            ViewBag.isUser = User.IsInRole("User");
+            ViewBag.isModerator = User.IsInRole("Moderator");
+            ViewBag.isAdmin = User.IsInRole("Admin");
+            ViewBag.currentUser = User.Identity.GetUserId();
+        }
+        #endregion
     }
 }

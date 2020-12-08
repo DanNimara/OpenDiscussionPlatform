@@ -1,9 +1,9 @@
 ﻿@model OpenDiscussionPlatform.Models.Subject
 @{
-    ViewBag.Title = "Subiect nou";
+    ViewBag.Title2 = "Subiect nou";
 }
 
-<h1>@ViewBag.Title</h1>
+<h1>@ViewBag.Title2</h1>
 
 
 @using (Html.BeginForm(actionName: "New", controllerName: "Subjects"))
@@ -24,6 +24,8 @@
 
     @Html.Hidden("CategoryID")
 
+    @Html.Hidden("UserID")
+
     <div class="form-group">
         @Html.Label("Category", "Categorie")
         <input class="form-control" id="Category" type="text" value="@ViewBag.CategoryName" readonly>
@@ -31,4 +33,8 @@
     </div>
 
     <button class="btn btn-success" type="submit">Adauga</button>
+}
+
+@{
+    ViewBag.Title = ViewBag.Title2;
 }

@@ -1,0 +1,47 @@
+﻿@model OpenDiscussionPlatform.Models.Subject
+@{
+    ViewBag.Title = Model.Title.ToString();
+}
+
+<h1>Editeaza @Model.Title</h1>
+
+
+@using (Html.BeginForm(actionName: "EditCategory", controllerName: "Subjects"))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+
+    @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+
+    @Html.Hidden("SubjectID")
+
+    @Html.Hidden("Title")
+
+    @Html.Hidden("Content")
+
+    @Html.Hidden("Date")
+
+    @Html.Hidden("UserID")
+
+    <div class="panel panel-default">
+
+
+        <div class="panel-heading">
+            <h3 class="panel-title"><strong>@Model.Title</strong></h3>
+        </div>
+
+        <div class="panel-body">
+            @Model.Content
+            <br /><br />
+
+            <div class="form-group">
+                @Html.Label("CategoryID", "Categorie")
+                @Html.DropDownList("CategoryId", new SelectList(Model.Categs, "Value", "Text"), null, new { @class = "form-control" })
+                @Html.ValidationMessage("CategoryID", null, new { @class = "text-danger" })
+            </div>
+            <i class="glyphicon glyphicon-user"></i> @Model.User.UserName
+            <span class="label label-info pull-right">@Model.Date</span>
+        </div>
+    </div>
+
+    <button class="btn btn-success" type="submit">Modifica</button>
+}

@@ -19,10 +19,12 @@ namespace OpenDiscussionPlatform.Models
         public DateTime Date { get; set; }
         [Required(ErrorMessage = "Categoria este obligatorie!")]
         public int CategoryID { get; set; }
+        public string UserID { get; set; }
 
+        public virtual ApplicationUser User { get; set; }
         public virtual Category Category { get; set; }
         public virtual ICollection<Reply> Replies { get; set; }
 
-        //DelByMod, UserID
+        public IEnumerable<SelectListItem> Categs { get; set; }
     }
 }
