@@ -21,6 +21,7 @@ namespace OpenDiscussionPlatform.Controllers
             {
                 ViewBag.Message = TempData["message"];
             }
+            ViewBag.isAdmin = User.IsInRole("Admin");
             return View();
         }
 
@@ -33,11 +34,15 @@ namespace OpenDiscussionPlatform.Controllers
             {
                 ViewBag.Message = TempData["message"];
             }
+
+            ViewBag.isAdmin = User.IsInRole("Admin");
+
             return View(category);
         }
 
 
         // GET: New
+        [Authorize(Roles = "Admin")]
         public ActionResult New()
         {
             Category category = new Category();
@@ -45,6 +50,7 @@ namespace OpenDiscussionPlatform.Controllers
         }
 
         // POST: New
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult New(Category category)
         {
@@ -70,6 +76,7 @@ namespace OpenDiscussionPlatform.Controllers
 
 
         // GET: Edit
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             Category category = db.Categories.Find(id);
@@ -77,6 +84,7 @@ namespace OpenDiscussionPlatform.Controllers
         }
 
         // PUT: Edit
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public ActionResult Edit(int id, Category requestCategory)
         {
@@ -112,6 +120,7 @@ namespace OpenDiscussionPlatform.Controllers
 
 
         //DELETE: Delete
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public ActionResult Delete(int id)
         {

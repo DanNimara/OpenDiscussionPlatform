@@ -1,22 +1,38 @@
 ﻿@model OpenDiscussionPlatform.Models.ApplicationUser
 
+@{
+    ViewBag.Title = "Detalii utilizator";
+}
+
+<ol class="breadcrumb">
+    <li><h3>@ViewBag.Title</h3></li>
+</ol>
+
 <div class="panel-heading">Nume utilizator: @Model.UserName</div>
 
 <div class="panel-body">
     <i class="glyphicon glyphicon-envelope"></i> Email utilizator: <span class="label label-default">@Model.Email</span>
     <br /><br />
 
+    <i class="glyphicon glyphicon-th-list"></i> Rol utilizator: @ViewBag.roleName
+    <br /><br />
+
     @*@if (Model.PhoneNumber != null)
-    {
-        <i class="glyphicon glyphicon-phone"></i>@:Telefon utilizator:<span class="label label-default">@Model.PhoneNumber</span>
-    }*@
+        {
+            <i class="glyphicon glyphicon-phone"></i>@:Telefon utilizator:<span class="label label-default">@Model.PhoneNumber</span>
+        }*@
 </div>
 
-<div class="panel-footer">
-    <a class="btn btn-sm btn-warning" href="/Users/Edit/@Model.Id"> Editare utilizator</a>
-    @using (Html.BeginForm("Delete", "Users", new { id = Model.Id }, FormMethod.Post, new { @class = "pull-right" }))
-    {
-        @Html.HttpMethodOverride(HttpVerbs.Delete)
-        <button class="btn btn-danger" type="submit">Sterge utilizator</button>
-    }
-</div>
+
+@if ((string)Model.Id != ViewBag.currentUser)
+{
+    <div class="panel-footer">
+        @using (Html.BeginForm(actionName: "Delete", controllerName: "Users", routeValues: new { id = @Model.Id }))
+        {
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <br />
+            <button class="btn btn-danger" type="submit">Sterge utilizator</button>
+
+        }
+    </div>
+}

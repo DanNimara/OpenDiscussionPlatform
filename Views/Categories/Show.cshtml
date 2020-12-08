@@ -18,14 +18,17 @@
     <div class="panel-body">
         @Model.Description
     </div>
-    <div class="panel-footer">
-        <a class="btn btn-warning" href="/Categories/Edit/@Model.CategoryID">Editeaza categorie</a>
-        @using (Html.BeginForm(actionName: "Delete", controllerName: "Categories", routeValues: new { id = Model.CategoryID }, method: FormMethod.Post, htmlAttributes: new { @class = "pull-right" }))
-        {
-            @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button class="btn btn-danger" type="submit">Sterge categorie</button>
-        }
-    </div>
+    @if (ViewBag.isAdmin)
+    {
+        <div class="panel-footer">
+            <a class="btn btn-warning" href="/Categories/Edit/@Model.CategoryID">Editeaza categorie</a>
+            @using (Html.BeginForm(actionName: "Delete", controllerName: "Categories", routeValues: new { id = Model.CategoryID }, method: FormMethod.Post, htmlAttributes: new { @class = "pull-right" }))
+            {
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                <button class="btn btn-danger" type="submit">Sterge categorie</button>
+            }
+        </div>
+    }
 </div>
 
 @if (ViewBag.Message != null)
