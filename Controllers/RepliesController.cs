@@ -1,4 +1,5 @@
-﻿using OpenDiscussionPlatform.Models;
+﻿using Microsoft.AspNet.Identity;
+using OpenDiscussionPlatform.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,15 @@ namespace OpenDiscussionPlatform.Controllers
         public ActionResult Edit(int id)
         {
             Reply reply = db.Replies.Find(id);
-            return View(reply);
+            if (reply.UserID == User.Identity.GetUserId())
+            {
+                return View(reply);
+            }
+            else
+            {
+                TempData["message"] = "Nu aveti dreptul sa editati acest raspuns!";
+                return Redirect("/Subjects/Show/" + reply.SubjectID);
+            }
         }
 
         [Authorize(Roles = "User, Moderator, Admin")]
@@ -66,10 +75,19 @@ namespace OpenDiscussionPlatform.Controllers
         public ActionResult Delete(int id)
         {
             var reply = db.Replies.Find(id);
-            db.Replies.Remove(reply);
-            db.SaveChanges();
-            TempData["message"] = "Raspunsul a fost sters!";
-            return Redirect("/Subjects/Show/" + reply.SubjectID);
+           
+            if (reply.UserID == User.Identity.GetUserId() || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+            {
+                db.Replies.Remove(reply);
+                db.SaveChanges();
+                TempData["message"] = "Raspunsul a fost sters!";
+                return Redirect("/Subjects/Show/" + reply.SubjectID);
+            }
+            else
+            {
+                TempData["message"] = "Nu aveti dreptul sa stergeti acest raspuns!";
+                return Redirect("/Subjects/Show/" + reply.SubjectID);
+            }
 
         }
     }
