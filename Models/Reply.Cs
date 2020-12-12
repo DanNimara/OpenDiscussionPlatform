@@ -14,6 +14,9 @@ namespace OpenDiscussionPlatform.Models
         public string Content { get; set; }
         public DateTime Date { get; set; }
         public int SubjectID { get; set; }
+        public string UserID { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
 
         public virtual Subject Subject { get; set; }
         //DelByMod, UserID

@@ -12,6 +12,7 @@ namespace OpenDiscussionPlatform.Controllers
     {
         private Models.ApplicationDbContext db = new Models.ApplicationDbContext();
 
+        private int _perPage = 4;
 
         // GET: Subjects
         public ActionResult Index()
@@ -31,10 +32,27 @@ namespace OpenDiscussionPlatform.Controllers
         public ActionResult Show(int id)
         {
             Category category = db.Categories.Find(id);
+            var subjects = category.Subjects;
+            var totalItems = subjects.Count();
+            var currentPage = Convert.ToInt32(Request.Params.Get("page"));
+
+            var offset = 0;
+
+            if (!currentPage.Equals(0))
+            {
+                offset = (currentPage - 1) * this._perPage;
+            }
+
+            var paginatedSubjects= subjects.Skip(offset).Take(this._perPage);
+
             if (TempData.ContainsKey("message"))
             {
-                ViewBag.Message = TempData["message"];
+                ViewBag.message = TempData["message"];
             }
+
+            ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)this._perPage);
+            ViewBag.Subjects = paginatedSubjects;
+
             SetAccessRights();
             return View(category);
         }

@@ -12,7 +12,6 @@ namespace OpenDiscussionPlatform.Controllers
     {
         private Models.ApplicationDbContext db = new Models.ApplicationDbContext();
 
-
         // GET: Show
         public ActionResult Show(int id)
         {
@@ -31,6 +30,7 @@ namespace OpenDiscussionPlatform.Controllers
         public ActionResult Show(Reply reply)
         {
             reply.Date = DateTime.Now;
+            reply.UserID = User.Identity.GetUserId();
             //reply user = getuser
             try
             {

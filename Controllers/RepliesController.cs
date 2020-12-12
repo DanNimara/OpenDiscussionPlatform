@@ -19,7 +19,7 @@ namespace OpenDiscussionPlatform.Controllers
         }
 
 
-
+        [Authorize(Roles = "User, Moderator, Admin")]
         // GET: Edit
         public ActionResult Edit(int id)
         {
@@ -27,6 +27,7 @@ namespace OpenDiscussionPlatform.Controllers
             return View(reply);
         }
 
+        [Authorize(Roles = "User, Moderator, Admin")]
         // PUT: Edit
         [HttpPut]
         public ActionResult Edit(int id, Reply requestReply)
@@ -59,7 +60,7 @@ namespace OpenDiscussionPlatform.Controllers
             }
         }
 
-
+        [Authorize(Roles = "User, Moderator, Admin")]
         // DELETE: Delete
         [HttpDelete]
         public ActionResult Delete(int id)

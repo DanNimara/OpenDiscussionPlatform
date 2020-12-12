@@ -26,13 +26,13 @@
             {
                 <a class="btn btn-warning" href="/Subjects/EditCategory/@Model.SubjectID">Schimba categoria</a>
             }
-            
+
             @using (Html.BeginForm(actionName: "Delete", controllerName: "Subjects", routeValues: new { id = Model.SubjectID }, method: FormMethod.Post, htmlAttributes: new { @class = "pull-right" }))
             {
                 @Html.HttpMethodOverride(HttpVerbs.Delete)
                 <button class="btn btn-danger" type="submit">Sterge subiect</button>
             }
-            
+
             <div class="clearfix"></div>
         </div>
     }
@@ -51,27 +51,43 @@
         <div class="panel-body">
             @reply.Content
             <br />
+            <i class="glyphicon glyphicon-user"></i> @reply.User.UserName
             <div class="pull-right"><small>@reply.Date</small></div>
         </div>
-        <div class="panel-footer">
-            <a class="btn btn-warning btn-sm" href="/Replies/Edit/@reply.ReplyID">Editeaza</a>
-            <form method="post" class="pull-right" action="/Replies/Delete/@reply.ReplyID">
-                @Html.HttpMethodOverride(HttpVerbs.Delete)
-                <button class="btn btn-danger btn-sm" type="submit">Sterge</button>
-            </form>
-        </div>
+
+        @if (ViewBag.currentUser == reply.UserID || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+        {
+            <div class="panel-footer">
+                @if (ViewBag.currentUser == reply.UserID)
+                {
+                    <a class="btn btn-warning btn-sm" href="/Replies/Edit/@reply.ReplyID">Editeaza</a>
+                }
+                @if (ViewBag.currentUser == reply.UserID || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+                {
+                    <form method="post" class="pull-right" action="/Replies/Delete/@reply.ReplyID">
+                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                        <button class="btn btn-danger btn-sm" type="submit">Sterge</button>
+                    </form>
+                }
+                <div class="clearfix"></div>
+            </div>
+
+        }
     </div>
 }
 
-<form method="post" action="/Subjects/Show/@Model.SubjectID">
-    <div class="panel-body">
-        <label for="Content">Continut raspuns</label>
-        <textarea class="form-control" id="Content" name="Content"></textarea>
-        @Html.ValidationMessage("Content", "", new { @class = "text-danger" })
-        <br />
+@if (User.IsInRole("User") || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+{
+    <form method="post" action="/Subjects/Show/@Model.SubjectID">
+        <div class="panel-body">
+            <label for="Content">Continut raspuns</label>
+            <textarea class="form-control" id="Content" name="Content"></textarea>
+            @Html.ValidationMessage("Content", "", new { @class = "text-danger" })
+            <br />
 
-        <input name="SubjectID" type="hidden" value="@Model.SubjectID" />
+            <input name="SubjectID" type="hidden" value="@Model.SubjectID" />
 
-        <button class="btn btn-success " type="submit">Adauga raspuns</button>
-    </div>
-</form>
+            <button class="btn btn-success " type="submit">Adauga raspuns</button>
+        </div>
+    </form>
+}
