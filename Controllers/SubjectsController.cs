@@ -12,14 +12,54 @@ namespace OpenDiscussionPlatform.Controllers
     {
         private Models.ApplicationDbContext db = new Models.ApplicationDbContext();
 
+
+        // GET: Subjects
+        public ActionResult Index(string search)
+        {
+            List<String> searchItems = new List<string>(search.Split(" .,?!()[]{};:".ToCharArray()));
+            searchItems = searchItems.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
+            var subjects = db.Subjects;
+            List<Subject> selectedSubjects = new List<Subject>();
+            if (searchItems.Count() > 0)
+            {
+                foreach (var subject in subjects)
+                {
+                    foreach (var item in searchItems.ToArray())
+                    {
+                        if (subject.Title.Contains(item) || subject.Content.Contains(item) || subject.Replies.Any(reply => reply.Content.Contains(item)))
+                        {
+                            selectedSubjects.Add(subject);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            ViewBag.search = search;
+            ViewBag.Subjects = selectedSubjects.ToArray();
+            return View();
+        }
+
+
         // GET: Show
-        public ActionResult Show(int id)
+        public ActionResult Show(int id, string sort)
         {
             Subject subject = db.Subjects.Find(id);
+
+            if (sort == "dateDesc")
+            {
+                ViewBag.Replies = subject.Replies.OrderByDescending(r => r.Date).ToArray();
+            }
+            else
+            {
+                ViewBag.Replies = subject.Replies.OrderBy(r => r.Date).ToArray();
+            }
+
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.Message = TempData["message"];
             }
+
             SetAccessRights();
             return View(subject);
         }
@@ -31,7 +71,6 @@ namespace OpenDiscussionPlatform.Controllers
         {
             reply.Date = DateTime.Now;
             reply.UserID = User.Identity.GetUserId();
-            //reply user = getuser
             try
             {
                 if (ModelState.IsValid)

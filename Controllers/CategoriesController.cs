@@ -14,7 +14,7 @@ namespace OpenDiscussionPlatform.Controllers
 
         private int _perPage = 4;
 
-        // GET: Subjects
+        // GET: Categories
         public ActionResult Index()
         {
             var categories = db.Categories;
@@ -29,10 +29,31 @@ namespace OpenDiscussionPlatform.Controllers
 
 
         // GET: Show
-        public ActionResult Show(int id)
+        public ActionResult Show(int id, string sort)
         {
             Category category = db.Categories.Find(id);
-            var subjects = category.Subjects;
+            Subject[] subjects;
+
+            switch (sort)
+            {
+                case "dateAsc":
+                    subjects = category.Subjects.OrderBy(s => s.Date).ToArray();
+                    break;
+                case "dateDesc":
+                    subjects = category.Subjects.OrderByDescending(s => s.Date).ToArray();
+                    break;
+                case "titleAsc":
+                    subjects = category.Subjects.OrderBy(s => s.Title).ToArray();
+                    break;
+                case "titleDesc":
+                    subjects = category.Subjects.OrderByDescending(s => s.Title).ToArray();
+                    break;
+                default:
+                    subjects = category.Subjects.OrderByDescending(s => s.Date).ToArray();
+                    break;
+            }
+
+
             var totalItems = subjects.Count();
             var currentPage = Convert.ToInt32(Request.Params.Get("page"));
 
@@ -43,15 +64,16 @@ namespace OpenDiscussionPlatform.Controllers
                 offset = (currentPage - 1) * this._perPage;
             }
 
-            var paginatedSubjects= subjects.Skip(offset).Take(this._perPage);
+            var paginatedSubjects = subjects.Skip(offset).Take(this._perPage);
 
             if (TempData.ContainsKey("message"))
             {
-                ViewBag.message = TempData["message"];
+                ViewBag.Message = TempData["message"];
             }
 
             ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)this._perPage);
             ViewBag.Subjects = paginatedSubjects;
+            ViewBag.sort = sort;
 
             SetAccessRights();
             return View(category);

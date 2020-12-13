@@ -13,13 +13,6 @@ namespace OpenDiscussionPlatform.Controllers
         private Models.ApplicationDbContext db = new Models.ApplicationDbContext();
 
 
-        // GET: Subjects
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-
         [Authorize(Roles = "User, Moderator, Admin")]
         // GET: Edit
         public ActionResult Edit(int id)
@@ -45,17 +38,21 @@ namespace OpenDiscussionPlatform.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var reply = db.Replies.Find(id);
-                    if (TryUpdateModel(reply))
+                    Reply reply = db.Replies.Find(id);
+                    if (reply.UserID == User.Identity.GetUserId())
                     {
-                        reply.Content = requestReply.Content;
-                        db.SaveChanges();
-                        TempData["message"] = "Raspunsul a fost modificat!";
+                        if (TryUpdateModel(reply))
+                        {
+                            reply.Content = requestReply.Content;
+                            db.SaveChanges();
+                            TempData["message"] = "Raspunsul a fost modificat!";
+                        }
                         return Redirect("/Subjects/Show/" + reply.SubjectID);
                     }
                     else
                     {
-                        return View(requestReply);
+                        TempData["message"] = "Nu aveti dreptul sa editati acest raspuns!";
+                        return Redirect("/Subjects/Show/" + reply.SubjectID);
                     }
                 }
                 else
@@ -75,7 +72,7 @@ namespace OpenDiscussionPlatform.Controllers
         public ActionResult Delete(int id)
         {
             var reply = db.Replies.Find(id);
-           
+
             if (reply.UserID == User.Identity.GetUserId() || User.IsInRole("Moderator") || User.IsInRole("Admin"))
             {
                 db.Replies.Remove(reply);
