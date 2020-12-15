@@ -1,7 +1,9 @@
 .vs/
 App_Data/
+App_Start/
 Content/
-
+Global.asax
+Global.asax.cs
 Migrations/
 OpenDiscussionPlatform.csproj
 OpenDiscussionPlatform.csproj.user
@@ -10,6 +12,7 @@ Properties/
 Scripts/
 Web.Debug.config
 Web.Release.config
+Web.config
 bin/
 favicon.ico
 fonts/

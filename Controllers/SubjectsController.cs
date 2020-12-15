@@ -12,6 +12,7 @@ namespace OpenDiscussionPlatform.Controllers
     {
         private Models.ApplicationDbContext db = new Models.ApplicationDbContext();
 
+        private int _perPage = 4;
 
         // GET: Subjects
         public ActionResult Index(string search)
@@ -35,8 +36,21 @@ namespace OpenDiscussionPlatform.Controllers
                 }
             }
 
+            var totalItems = selectedSubjects.Count();
+            var currentPage = Convert.ToInt32(Request.Params.Get("page"));
+
+            var offset = 0;
+
+            if (!currentPage.Equals(0))
+            {
+                offset = (currentPage - 1) * this._perPage;
+            }
+
+            var paginatedSubjects = selectedSubjects.Skip(offset).Take(this._perPage);
+
+            ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)this._perPage);
+            ViewBag.Subjects = paginatedSubjects;
             ViewBag.search = search;
-            ViewBag.Subjects = selectedSubjects.ToArray();
             return View();
         }
 
@@ -83,6 +97,14 @@ namespace OpenDiscussionPlatform.Controllers
                 else
                 {
                     Subject s = db.Subjects.Find(reply.SubjectID);
+
+                    ViewBag.Replies = s.Replies.OrderBy(r => r.Date).ToArray();
+
+                    if (TempData.ContainsKey("message"))
+                    {
+                        ViewBag.Message = TempData["message"];
+                    }
+
                     SetAccessRights();
                     return View(s);
                 }
@@ -90,6 +112,14 @@ namespace OpenDiscussionPlatform.Controllers
             catch (Exception)
             {
                 Subject s = db.Subjects.Find(reply.SubjectID);
+
+                ViewBag.Replies = s.Replies.OrderBy(r => r.Date).ToArray();
+
+                if (TempData.ContainsKey("message"))
+                {
+                    ViewBag.Message = TempData["message"];
+                }
+
                 SetAccessRights();
                 return View(s);
             }
