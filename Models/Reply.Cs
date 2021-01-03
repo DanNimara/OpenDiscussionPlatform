@@ -11,6 +11,7 @@ namespace OpenDiscussionPlatform.Models
         [Key]
         public int ReplyID { get; set; }
         [Required(ErrorMessage = "Continutul raspunsului este obligatoriu!")]
+        [DataType(DataType.MultilineText)]
         public string Content { get; set; }
         public DateTime Date { get; set; }
         public int SubjectID { get; set; }
@@ -19,6 +20,5 @@ namespace OpenDiscussionPlatform.Models
         public virtual ApplicationUser User { get; set; }
 
         public virtual Subject Subject { get; set; }
-        //DelByMod, UserID
     }
 }

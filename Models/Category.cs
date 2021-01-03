@@ -13,6 +13,7 @@ namespace OpenDiscussionPlatform.Models
         [Required(ErrorMessage = "Numele este obligatoriu!")]
         [StringLength(25, ErrorMessage = "Numele categoriei nu poate avea mai mult de 25 de caractere!")]
         public string Name { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
         public virtual ICollection<Subject> Subjects { get; set; }

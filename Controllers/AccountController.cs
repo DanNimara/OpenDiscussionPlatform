@@ -17,12 +17,13 @@ namespace OpenDiscussionPlatform.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private Models.ApplicationDbContext db = new Models.ApplicationDbContext();
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +35,9 @@ namespace OpenDiscussionPlatform.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -120,7 +121,7 @@ namespace OpenDiscussionPlatform.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -151,14 +152,14 @@ namespace OpenDiscussionPlatform.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, RegisterDate = DateTime.Now };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     UserManager.AddToRole(user.Id, "User");
 
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -429,6 +430,69 @@ namespace OpenDiscussionPlatform.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        [AllowAnonymous]
+        // GET: Show
+        public ActionResult Show(string id)
+        {
+            if (id is null && User.Identity.IsAuthenticated)
+            {
+                id = User.Identity.GetUserId();
+            }
+            ApplicationUser user = db.Users.Find(id);
+
+            if (TempData.ContainsKey("message"))
+            {
+                ViewBag.Message = TempData["message"];
+            }
+
+            ViewBag.currentUser = User.Identity.GetUserId();
+
+            return View(user);
+        }
+
+        // GET: Edit
+        public ActionResult Edit(string id)
+        {
+            ApplicationUser user = db.Users.Find(id);
+            return View(user);
+        }
+
+        //PUT: Edit
+        [HttpPut]
+        public ActionResult Edit(string id, ApplicationUser requestUser)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ApplicationUser user = db.Users.Find(id);
+                    if (user.Id == User.Identity.GetUserId())
+                    {
+                        if (TryUpdateModel(user))
+                        {
+                            user.UserName = requestUser.UserName.Trim();
+                            user.FirstName = requestUser.FirstName.Trim();
+                            user.LastName = requestUser.LastName.Trim();
+                            user.AboutMe = requestUser.AboutMe.Trim();
+                            db.SaveChanges();
+                            TempData["message"] = "Profilul a fost modificat!";
+                        }
+                        return Redirect("/Account/Show");
+                    }
+                    else
+                    {
+                        TempData["message"] = "Nu aveti dreptul sa editati acest subiect!";
+                        return Redirect("/Account/Show/" + user.Id);
+                    }
+                }
+                return View(requestUser);
+            }
+            catch (Exception)
+            {
+                return View(requestUser);
+            }
         }
 
         #region Helpers

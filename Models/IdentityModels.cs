@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -20,6 +22,15 @@ namespace OpenDiscussionPlatform.Models
         }
 
         public IEnumerable<SelectListItem> AllRoles { get; set; }
+
+        [StringLength(100, ErrorMessage = "Prenumele nu poate avea mai mult de 100 de caractere!")]
+        public string FirstName { get; set; }
+        [StringLength(100, ErrorMessage = "Numele sectiune nu poate avea mai mult de 100 de caractere!")]
+        public string LastName { get; set; }
+        [StringLength(500, ErrorMessage = "Aceasta sectiune nu poate avea mai mult de 500 de caractere!")]
+        [DataType(DataType.MultilineText)]
+        public string AboutMe { get; set; }
+        public DateTime RegisterDate { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

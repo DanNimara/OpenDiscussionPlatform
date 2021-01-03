@@ -15,6 +15,7 @@ namespace OpenDiscussionPlatform.Models
         [StringLength(100, ErrorMessage = "Titlul nu poate avea mai mult de 100 de caractere!")]
         public string Title { get; set; }
         [Required(ErrorMessage = "Continutul subiectului de discutie este obligatoriu!")]
+        [DataType(DataType.MultilineText)]
         public string Content { get; set; }
         public DateTime Date { get; set; }
         [Required(ErrorMessage = "Categoria este obligatorie!")]

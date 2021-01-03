@@ -8,7 +8,7 @@
     <li><h3>@ViewBag.Title</h3></li>
 </ol>
 
-<div class="panel-heading">Nume utilizator: @Model.UserName</div>
+<div class="panel-heading">Nume de utilizator: @Html.ActionLink(linkText: (string)Model.UserName, actionName: "Show", controllerName: "Account", routeValues: new { id = Model.Id }, htmlAttributes: null)</div>
 
 <div class="panel-body">
     <i class="glyphicon glyphicon-envelope"></i> Email utilizator: <span class="label label-default">@Model.Email</span>
@@ -16,11 +16,6 @@
 
     <i class="glyphicon glyphicon-th-list"></i> Rol utilizator: @ViewBag.roleName
     <br /><br />
-
-    @*@if (Model.PhoneNumber != null)
-        {
-            <i class="glyphicon glyphicon-phone"></i>@:Telefon utilizator:<span class="label label-default">@Model.PhoneNumber</span>
-        }*@
 </div>
 
 

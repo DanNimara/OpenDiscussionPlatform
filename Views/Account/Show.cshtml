@@ -1,0 +1,47 @@
+﻿@model OpenDiscussionPlatform.Models.ApplicationUser
+@{
+    ViewBag.Title = Model.UserName;
+}
+
+
+<h1>@ViewBag.Title</h1>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Message
+    </div>
+}
+
+<div class="panel panel-default">
+
+    @if (Model.AboutMe != null)
+    {
+        <div class="panel-heading">
+            <strong>@Model.AboutMe</strong>
+        </div>
+    }
+    
+    <div class="panel-body">
+        @if (Model.FirstName != null)
+        {
+            @Model.FirstName
+            <br />
+        }
+        @if (Model.LastName != null)
+        {
+            @Model.LastName
+            <br />
+        }
+        @Model.Email
+        <br />
+        @Model.RegisterDate
+    </div>
+
+    @if (ViewBag.currentUser == Model.Id)
+    {
+        <div class="panel-footer">
+            <a class="btn btn-warning" href="/Account/Edit/@Model.Id">Editeaza profil</a>
+        </div>
+    }
+</div>

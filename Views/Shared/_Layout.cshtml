@@ -33,6 +33,11 @@
                         <li>@Html.ActionLink("Utilizatori", "Index", "Users")</li>
                     }
 
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Profil", "Show", "Account")</li>
+                    }
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
