@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.Security.Application;
 using OpenDiscussionPlatform.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -126,6 +128,21 @@ namespace OpenDiscussionPlatform.Controllers
         }
 
 
+        // GET: ShowImage
+        public ActionResult ShowImage(int id)
+        {
+            byte[] cover = GetImageFromDataBase(id);
+            if (cover != null)
+            {
+                return File(cover, "image/jpg");
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
         // GET: New
         [Authorize(Roles = "User, Moderator, Admin")]
         public ActionResult New(int id)
@@ -143,7 +160,9 @@ namespace OpenDiscussionPlatform.Controllers
         [HttpPost]
         public ActionResult New(Subject subject)
         {
+            HttpPostedFileBase file = Request.Files["ImageData"];
             subject.Date = DateTime.Now;
+            subject.Image = ConvertToBytes(file);
             try
             {
                 if (ModelState.IsValid)
@@ -205,6 +224,13 @@ namespace OpenDiscussionPlatform.Controllers
                         {
                             subject.Title = requestSubject.Title;
                             subject.Content = requestSubject.Content;
+
+                            HttpPostedFileBase file = Request.Files["ImageData"];
+                            var image = ConvertToBytes(file);
+                            if (image.Length > 0)
+                            {
+                                subject.Image = image;
+                            }
                             db.SaveChanges();
                             TempData["message"] = "Subiectul a fost modificat!";
                         }
@@ -305,6 +331,22 @@ namespace OpenDiscussionPlatform.Controllers
                 });
             }
             return selectList;
+        }
+
+        public byte[] ConvertToBytes(HttpPostedFileBase image)
+        {
+            BinaryReader reader = new BinaryReader(image.InputStream);
+            byte[] imageBytes = reader.ReadBytes((int)image.ContentLength);
+            return imageBytes;
+        }
+
+        public byte[] GetImageFromDataBase(int ID)
+        {
+            var q = from temp in db.Subjects
+                    where temp.SubjectID == ID
+                    select temp.Image;
+            byte[] cover = q.First();
+            return cover;
         }
 
         private void SetAccessRights()

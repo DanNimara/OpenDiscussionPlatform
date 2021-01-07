@@ -472,9 +472,20 @@ namespace OpenDiscussionPlatform.Controllers
                     {
                         if (TryUpdateModel(user))
                         {
-                            user.UserName = requestUser.UserName.Trim();
+                            if (requestUser.FirstName is null)
+                            {
+                                requestUser.FirstName = "";
+                            }
                             user.FirstName = requestUser.FirstName.Trim();
+                            if (requestUser.LastName is null)
+                            {
+                                requestUser.LastName = "";
+                            }
                             user.LastName = requestUser.LastName.Trim();
+                            if (requestUser.AboutMe is null)
+                            {
+                                requestUser.AboutMe = "";
+                            }
                             user.AboutMe = requestUser.AboutMe.Trim();
                             db.SaveChanges();
                             TempData["message"] = "Profilul a fost modificat!";

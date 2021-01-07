@@ -3,40 +3,48 @@
     ViewBag.Title = Model.Title.ToString();
 }
 
-<h1>@ViewBag.Title</h1>
-
-
-<a class="btn btn-primary" href="/Categories/Show/@Model.CategoryID">Inapoi la subiecte</a>
-<br />
-<br />
-
-
-<div class="panel panel-default">
-    @Html.Partial("SubjectInfo", Model)
-
-    @if (ViewBag.currentUser == Model.UserID || ViewBag.isModerator || ViewBag.isAdmin)
+<div class="greybck">
+    @if (Model.Image != null)
     {
-        <div class="panel-footer">
-            @if (ViewBag.currentUser == Model.UserID)
+        <img src="/Subjects/ShowImage/@Model.SubjectID" alt="" class="subjectimg img-responsive center-block" />
+    }
+    <h1 class="text-center"><strong>@Model.Title</strong></h1>
+    <p class="orng text-center"> Scris de: @Html.ActionLink(linkText: (string)Model.User.UserName, actionName: "Show", controllerName: "Account", routeValues: new { id = Model.UserID }, htmlAttributes: null) </p>
+    <div class="interior">
+        <div class="intb">
+        <span class="label label-info pull-right">@Model.Date</span>
+        <br /><br />
+        <span class="font-style">@Model.Content</span>
+        <br /><br />
+
+        <i class="glyphicon glyphicon-globe"></i> @Model.Category.Name <br />
+
+        @if (ViewBag.currentUser == Model.UserID || ViewBag.isModerator || ViewBag.isAdmin)
+        {
+            if (ViewBag.currentUser == Model.UserID)
             {
                 <a class="btn btn-warning" href="/Subjects/Edit/@Model.SubjectID">Editeaza subiect</a>
             }
 
-            @if (ViewBag.isModerator || ViewBag.isAdmin)
+            if (ViewBag.isModerator || ViewBag.isAdmin)
             {
                 <a class="btn btn-warning" href="/Subjects/EditCategory/@Model.SubjectID">Schimba categoria</a>
             }
 
-            @using (Html.BeginForm(actionName: "Delete", controllerName: "Subjects", routeValues: new { id = Model.SubjectID }, method: FormMethod.Post, htmlAttributes: new { @class = "pull-right" }))
+            using (Html.BeginForm(actionName: "Delete", controllerName: "Subjects", routeValues: new { id = Model.SubjectID }, method: FormMethod.Post, htmlAttributes: new { @class = "pull-right" }))
             {
                 @Html.HttpMethodOverride(HttpVerbs.Delete)
                 <button class="btn btn-danger" type="submit">Sterge subiect</button>
             }
-
             <div class="clearfix"></div>
-        </div>
-    }
+        }
+        <br />
+        <a class="btn btn-primary" href="/Categories/Show/@Model.CategoryID">Inapoi la subiecte</a>
+            </div>
+    </div>
+    <br />
 </div>
+<br />
 
 @if (ViewBag.Message != null)
 {
@@ -63,11 +71,15 @@
 @foreach (var reply in ViewBag.Replies)
 {
     <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="user-style">
+                @Html.ActionLink(linkText: (string)reply.User.UserName, actionName: "Show", controllerName: "Account", routeValues: new { id = reply.UserID }, htmlAttributes: null)
+            </span>
+            <span class="pull-right user-style"><small>@reply.Date</small></span>
+        </div>
         <div class="panel-body">
             @reply.Content
             <br />
-            <i class="glyphicon glyphicon-user"></i> @Html.ActionLink(linkText: (string)reply.User.UserName, actionName: "Show", controllerName: "Account", routeValues: new { id = reply.UserID }, htmlAttributes: null)
-            <div class="pull-right"><small>@reply.Date</small></div>
         </div>
 
         @if (ViewBag.currentUser == reply.UserID || User.IsInRole("Moderator") || User.IsInRole("Admin"))
@@ -106,3 +118,4 @@
         </div>
     </form>
 }
+

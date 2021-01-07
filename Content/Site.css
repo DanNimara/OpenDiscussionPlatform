@@ -1,6 +1,10 @@
-﻿body {
+﻿@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
+
+body {
+    font-family: 'Quicksand', sans-serif;
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #1289A7;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -24,9 +28,9 @@ textarea {
 }
 
 .navbar {
-    background-color: #dadada;
+    background-color: #9980FA;
     border: none;
-    box-shadow: 0 6px 12px #dadada;
+    box-shadow: 0 6px 12px #9980FA;
 }
 
 .navbar a {
@@ -34,5 +38,85 @@ textarea {
 }
 
 .navbar a:hover {
-    color: #5cb85c;
+    color: #FDA7DF;
+}
+
+.bckgd {
+    background-color: #1289A7;
+}
+
+.formular {
+    background-color: #F79F1F;
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.formular:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4), 0 12px 40px 0 rgba(0, 0, 0, 0.38);
+}
+
+.footer-position {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding-top: 15px;
+    background: #f5eceb;
+    box-shadow: 0 6px 18px #ccc;
+}
+
+.user-style {
+    font-weight: bold;
+}
+
+.subjectimg{
+    max-width: 100%;
+}
+
+.greybck {
+    background-color: #e9ebee;
+}
+
+.orng {
+    color: #F79F1F;
+}
+
+.interior{
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+/*.intb {
+    background-color: #FFFFFF;
+}*/
+
+.font-style{
+    font-size: 20px;
+}
+
+.panel-heading {
+    background-color: #9980FA !important;
+    color: #FDA7DF !important;
+    border-radius: 15px;
+}
+.panel-body {
+    border-radius: 15px;
+}
+.panel-footer {
+    border-radius: 15px;
+}
+.panel {
+    border-radius: 18px;
+}
+
+.ovf{
+    height:115px;
+    overflow: hidden;
+}
+
+.white{
+    background-color: white;
 }

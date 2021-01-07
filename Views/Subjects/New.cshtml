@@ -3,10 +3,19 @@
     ViewBag.Title2 = "Subiect nou";
 }
 
+<script type="text/javascript">
+    function fileCheck(obj) {
+        var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+        if ($.inArray($(obj).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            alert("Only '.jpeg','.jpg', '.png', '.gif', '.bmp' formats are allowed.");
+        }
+    }
+</script>
+
 <h1>@ViewBag.Title2</h1>
 
 
-@using (Html.BeginForm(actionName: "New", controllerName: "Subjects"))
+@using (Html.BeginForm("New", "Subjects", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(false, null, new { @class = "text-danger" })
 
@@ -20,6 +29,11 @@
         @Html.Label("Content", "Continut subiect")
         @Html.TextArea("Content", null, new { @class = "form-control", @rows = "4" })
         @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Image", "Adauga imagine")
+        <input type="file" name="ImageData" id="ImageData" onchange="fileCheck(this);" />
     </div>
 
     @Html.Hidden("CategoryID")

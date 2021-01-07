@@ -14,7 +14,7 @@
 <h1>Editeaza @Model.Title</h1>
 
 
-@using (Html.BeginForm(actionName: "Edit", controllerName: "Subjects"))
+@using (Html.BeginForm("Edit", "Subjects", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.HttpMethodOverride(HttpVerbs.Put)
 
@@ -31,6 +31,12 @@
     <div class="form-group">
         @Html.Label("Content", "Continut subiect")
         @Html.Editor("Content", new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Image", "Schimba imaginea")
+        <input type="file" name="ImageData" id="ImageData" onchange="fileCheck(this);" />
         @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
     </div>
 

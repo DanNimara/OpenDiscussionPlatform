@@ -18,17 +18,37 @@
     <br />
 }
 
+@{
+    var itemCount = 0;
+}
+
     @foreach (var category in ViewBag.Categories)
     {
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><strong>@category.Name</strong></h3>
-            </div>
-            <div class="panel-body">
-                @category.Description
-            </div>
-            <div class="panel-footer">
-                <a class="btn btn-success btn-sm" href="/Categories/Show/@category.CategoryID">Afisare categorie</a>
+        var insertRow = itemCount % 3 == 0;
+        if (insertRow)
+        {
+            @Html.Raw("<div class='row'>")
+        }
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>@category.Name</strong></h3>
+                </div>
+                <div class="ovf">
+                    <div class="panel-body">
+
+                        @category.Description
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <a class="btn btn-success btn-sm" href="/Categories/Show/@category.CategoryID">Afisare categorie</a>
+                </div>
             </div>
         </div>
+        if (itemCount % 3 == 2)
+        {
+            @Html.Raw("</div>")
+        }
+        itemCount = itemCount + 1;
     }
+<div class="clearfix"></div>

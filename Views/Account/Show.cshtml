@@ -21,14 +21,14 @@
             <strong>@Model.AboutMe</strong>
         </div>
     }
-    
+
     <div class="panel-body">
-        @if (Model.FirstName != null)
+        @if (Model.FirstName != null && Model.FirstName.Length > 0)
         {
             @Model.FirstName
             <br />
         }
-        @if (Model.LastName != null)
+        @if (Model.LastName != null && Model.LastName.Length > 0)
         {
             @Model.LastName
             <br />

@@ -17,13 +17,14 @@ namespace OpenDiscussionPlatform.Models
         [Required(ErrorMessage = "Continutul subiectului de discutie este obligatoriu!")]
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
+        public byte[] Image { get; set; }
         public DateTime Date { get; set; }
         [Required(ErrorMessage = "Categoria este obligatorie!")]
         public int CategoryID { get; set; }
         public string UserID { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
         public virtual Category Category { get; set; }
+        public virtual ApplicationUser User { get; set; }
         public virtual ICollection<Reply> Replies { get; set; }
 
         public IEnumerable<SelectListItem> Categs { get; set; }
