@@ -1,33 +1,40 @@
 ﻿@model OpenDiscussionPlatform.Models.ApplicationUser
-
 @{
     ViewBag.Title = "Detalii utilizator";
 }
 
-<ol class="breadcrumb">
-    <li><h3>@ViewBag.Title</h3></li>
-</ol>
+<br />
+<br />
 
-<div class="panel-heading">Nume de utilizator: @Html.ActionLink(linkText: (string)Model.UserName, actionName: "Show", controllerName: "Account", routeValues: new { id = Model.Id }, htmlAttributes: null)</div>
-
-<div class="panel-body">
-    <i class="glyphicon glyphicon-envelope"></i> Email utilizator: <span class="label label-default">@Model.Email</span>
-    <br /><br />
-
-    <i class="glyphicon glyphicon-th-list"></i> Rol utilizator: @ViewBag.roleName
-    <br /><br />
-</div>
-
-
-@if ((string)Model.Id != ViewBag.currentUser)
-{
-    <div class="panel-footer">
-        @using (Html.BeginForm(actionName: "Delete", controllerName: "Users", routeValues: new { id = @Model.Id }))
-        {
-            @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <br />
-            <button class="btn btn-danger" type="submit">Sterge utilizator</button>
-
-        }
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h3 class="text-center">@ViewBag.Title</h3>
     </div>
-}
+</div>
+<br />
+
+<div class="panel panel-default">
+    <div class="panel-heading">Nume de utilizator: @Html.ActionLink(linkText: (string)Model.UserName, actionName: "Show", controllerName: "Account", routeValues: new { id = Model.Id }, htmlAttributes: null)</div>
+
+    <div class="panel-body">
+        <i class="glyphicon glyphicon-envelope"></i> Email utilizator: <span class="label label-default">@Model.Email</span>
+        <br /><br />
+
+        <i class="glyphicon glyphicon-th-list"></i> Rol utilizator: @ViewBag.roleName
+        <br /><br />
+    </div>
+
+
+    @if ((string)Model.Id != ViewBag.currentUser)
+    {
+        <div class="panel-footer">
+            @using (Html.BeginForm(actionName: "Delete", controllerName: "Users", routeValues: new { id = @Model.Id }))
+            {
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                <br />
+                <button class="btn btn-danger" type="submit">Sterge utilizator</button>
+
+            }
+        </div>
+    }
+</div>

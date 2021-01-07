@@ -8,47 +8,64 @@
     {
         ViewBag.Title = "Editeaza subiect de discutie";
     }
-
 }
+<script type="text/javascript">
+    function fileCheck(obj) {
+        var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+        if ($.inArray($(obj).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            alert("Only '.jpeg','.jpg', '.png', '.gif', '.bmp' formats are allowed.");
+        }
+    }
+</script>
 
-<h1>Editeaza @Model.Title</h1>
+<br />
+<br />
+
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        <h1>Editeaza @Model.Title</h1>
 
 
-@using (Html.BeginForm("Edit", "Subjects", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.HttpMethodOverride(HttpVerbs.Put)
+        @using (Html.BeginForm("Edit", "Subjects", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
 
-    @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+            @Html.HttpMethodOverride(HttpVerbs.Put)
 
-    @Html.Hidden("SubjectID")
+            @Html.ValidationSummary(false, null, new { @class = "text-danger" })
 
-    <div class="form-group">
-        @Html.Label("Title", "Titlu subiect")
-        @Html.Editor("Title", new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessage("Title", null, new { @class = "text-danger" })
+            @Html.Hidden("SubjectID")
+
+            <div class="form-group">
+                @Html.Label("Title", "Titlu subiect")
+                @Html.Editor("Title", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessage("Title", null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Content", "Continut subiect")
+                @Html.Editor("Content", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Image", "Schimba imaginea")
+                <input type="file" name="ImageData" id="ImageData" onchange="fileCheck(this);" />
+                @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+            </div>
+
+            @Html.Hidden("Date")
+
+            @Html.Hidden("CategoryID")
+
+            <div class="form-group">
+                @Html.Label("Category", "Categorie")
+                <input class="form-control" id="Category" type="text" value="@ViewBag.CategoryName" readonly>
+                @Html.ValidationMessage("Category", null, new { @class = "text-danger" })
+            </div>
+
+            <button class="btn btn-success" type="submit">Modifica</button>
+
+        }
     </div>
-
-    <div class="form-group">
-        @Html.Label("Content", "Continut subiect")
-        @Html.Editor("Content", new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-        @Html.Label("Image", "Schimba imaginea")
-        <input type="file" name="ImageData" id="ImageData" onchange="fileCheck(this);" />
-        @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
-    </div>
-
-    @Html.Hidden("Date")
-
-    @Html.Hidden("CategoryID")
-
-    <div class="form-group">
-        @Html.Label("Category", "Categorie")
-        <input class="form-control" id="Category" type="text" value="@ViewBag.CategoryName" readonly>
-        @Html.ValidationMessage("Category", null, new { @class = "text-danger" })
-    </div>
-
-    <button class="btn btn-success" type="submit">Modifica</button>
-}
+</div>

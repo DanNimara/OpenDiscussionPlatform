@@ -2,7 +2,25 @@
     ViewBag.Title = "Categorii";
 }
 
-<h1>@ViewBag.Title</h1>
+<br />
+<br />
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h1 class="text-center">@ViewBag.Title</h1>
+        <br />
+
+        <div class="text-center">
+            @if (ViewBag.isAdmin)
+            {
+                <a class="btn btn-primary" href="/Categories/New">Categorie noua</a>
+                <div class="clearfix"></div>
+                <br />
+            }
+        </div>
+    </div>
+</div>
+<br />
 
 @if (ViewBag.Message != null)
 {
@@ -11,44 +29,37 @@
     @:</div>
 }
 
-@if (ViewBag.isAdmin)
-{
-    <a class="btn btn-primary" href="/Categories/New">Categorie noua</a>
-    <br />
-    <br />
-}
-
 @{
     var itemCount = 0;
 }
 
-    @foreach (var category in ViewBag.Categories)
+@foreach (var category in ViewBag.Categories)
+{
+    var insertRow = itemCount % 3 == 0;
+    if (insertRow)
     {
-        var insertRow = itemCount % 3 == 0;
-        if (insertRow)
-        {
-            @Html.Raw("<div class='row'>")
-        }
-        <div class="col-lg-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><strong>@category.Name</strong></h3>
-                </div>
-                <div class="ovf">
-                    <div class="panel-body">
+        @Html.Raw("<div class='row'>")
+    }
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>@category.Name</strong></h3>
+            </div>
+            <div class="ovf">
+                <div class="panel-body">
 
-                        @category.Description
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <a class="btn btn-success btn-sm" href="/Categories/Show/@category.CategoryID">Afisare categorie</a>
+                    @category.Description
                 </div>
             </div>
+            <div class="panel-footer">
+                <a class="btn btn-success btn-sm" href="/Categories/Show/@category.CategoryID">Afisare categorie</a>
+            </div>
         </div>
-        if (itemCount % 3 == 2)
-        {
-            @Html.Raw("</div>")
-        }
-        itemCount = itemCount + 1;
+    </div>
+    if (itemCount % 3 == 2)
+    {
+        @Html.Raw("</div>")
     }
+    itemCount = itemCount + 1;
+}
 <div class="clearfix"></div>

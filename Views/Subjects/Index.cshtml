@@ -2,12 +2,23 @@
     ViewBag.Title = "Rezultatele cautarii pentru \"" + ViewBag.search + "\"";
 }
 
-<h1>@ViewBag.Title</h1>
-
-
-<a class="btn btn-primary" href="/Categories/Index">Inapoi la categorii</a>
 <br />
 <br />
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h1 class="text-center">@ViewBag.Title</h1>
+        <br />
+
+        <div class="text-center">
+            <a class="btn btn-primary" href="/Categories/Index">Inapoi la categorii</a>
+            <div class="clearfix"></div>
+            <br />
+        </div>
+    </div>
+</div>
+<br />
+
 
 @foreach (OpenDiscussionPlatform.Models.Subject subject in ViewBag.Subjects)
 {

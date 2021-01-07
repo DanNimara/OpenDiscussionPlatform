@@ -1,26 +1,32 @@
 ﻿@{
-    ViewBag.Title = "Afisare utilizatori";
+    ViewBag.Title = "Afișare utilizatori";
 }
 
-<ol class="breadcrumb">
-    <li><h3>@ViewBag.Title</h3></li>
-</ol>
+<br />
+<br />
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h3 class="text-center">@ViewBag.Title</h3>
+    </div>
+</div>
+<br />
 
 @foreach (var user in ViewBag.UsersList)
 {
-<div class="panel panel-default">
-    <div class="panel-heading">Nume de utilizator: @Html.ActionLink(linkText: (string)user.UserName, actionName: "Show", controllerName: "Account", routeValues: new { id = user.Id }, htmlAttributes: null)</div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Nume de utilizator: @Html.ActionLink(linkText: (string)user.UserName, actionName: "Show", controllerName: "Account", routeValues: new { id = user.Id }, htmlAttributes: null)</div>
 
-    <div class="panel-body">
-        <i class="glyphicon glyphicon-envelope"></i> Email utilizator: <span class="label label-default">@user.Email</span>
-        <br /><br />
-    </div>
+        <div class="panel-body">
+            <i class="glyphicon glyphicon-envelope"></i> Email utilizator: <span class="label label-default">@user.Email</span>
+            <br /><br />
+        </div>
 
-    <div class="panel-footer">
-        <a class="btn btn-sm btn-warning" href="/Users/Edit/@user.Id"> Editare utilizator</a>
-        <a class="btn btn-sm btn-success" href="/Users/Show/@user.Id"> Vizualizare utilizator</a>
+        <div class="panel-footer">
+            <a class="btn btn-sm btn-warning" href="/Users/Edit/@user.Id"> Editare utilizator</a>
+            <a class="btn btn-sm btn-success" href="/Users/Show/@user.Id"> Vizualizare utilizator</a>
+        </div>
     </div>
-</div>
     <br />
     <br />
 }

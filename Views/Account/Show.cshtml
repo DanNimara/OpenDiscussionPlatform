@@ -14,23 +14,23 @@
 }
 
 <div class="panel panel-default">
-
-    @if (Model.AboutMe != null)
+    @if (Model.FirstName != null && Model.FirstName.Length > 0)
     {
         <div class="panel-heading">
-            <strong>@Model.AboutMe</strong>
+            @Model.FirstName
+            @if (Model.LastName != null && Model.LastName.Length > 0)
+            {
+                @Model.LastName
+                <br />
+            }
         </div>
     }
 
     <div class="panel-body">
-        @if (Model.FirstName != null && Model.FirstName.Length > 0)
+        @if (Model.AboutMe != null)
         {
-            @Model.FirstName
-            <br />
-        }
-        @if (Model.LastName != null && Model.LastName.Length > 0)
-        {
-            @Model.LastName
+            <strong>Despre mine:</strong>
+            @Model.AboutMe
             <br />
         }
         @Model.Email

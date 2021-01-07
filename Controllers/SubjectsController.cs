@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using Microsoft.Security.Application;
 using OpenDiscussionPlatform.Models;
 using System;
 using System.Collections.Generic;

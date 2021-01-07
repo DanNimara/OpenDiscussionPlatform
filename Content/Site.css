@@ -33,13 +33,13 @@ textarea {
     box-shadow: 0 6px 12px #9980FA;
 }
 
-.navbar a {
-    color: #2c2c2c;
-}
+    .navbar a {
+        color: #2c2c2c;
+    }
 
-.navbar a:hover {
-    color: #FDA7DF;
-}
+        .navbar a:hover {
+            color: #FDA7DF;
+        }
 
 .bckgd {
     background-color: #1289A7;
@@ -52,9 +52,9 @@ textarea {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.formular:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4), 0 12px 40px 0 rgba(0, 0, 0, 0.38);
-}
+    .formular:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4), 0 12px 40px 0 rgba(0, 0, 0, 0.38);
+    }
 
 .footer-position {
     position: fixed;
@@ -62,28 +62,29 @@ textarea {
     bottom: 0;
     width: 100%;
     text-align: center;
-    padding-top: 15px;
-    background: #f5eceb;
-    box-shadow: 0 6px 18px #ccc;
+    padding-top: 10px;
+    background: #9980FA;
+    box-shadow: 0 6px 18px #9980FA;
 }
 
 .user-style {
     font-weight: bold;
 }
 
-.subjectimg{
+.subjectimg {
     max-width: 100%;
 }
 
 .greybck {
     background-color: #e9ebee;
+    border-radius: 5px;
 }
 
 .orng {
     color: #F79F1F;
 }
 
-.interior{
+.interior {
     padding-left: 2.5%;
     padding-right: 2.5%;
     padding-top: 1%;
@@ -93,30 +94,71 @@ textarea {
     background-color: #FFFFFF;
 }*/
 
-.font-style{
+.font-style {
     font-size: 20px;
+}
+
+.panel {
+    border-radius: 5px;
 }
 
 .panel-heading {
     background-color: #9980FA !important;
-    color: #FDA7DF !important;
-    border-radius: 15px;
-}
-.panel-body {
-    border-radius: 15px;
-}
-.panel-footer {
-    border-radius: 15px;
-}
-.panel {
-    border-radius: 18px;
+    color: #000 !important;
+    border-color: #9980FA;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
-.ovf{
-    height:115px;
+
+/*.panel-body {
+    border-radius: 5px;
+}*/
+.panel-footer {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+
+.ovf {
+    height: 115px;
     overflow: hidden;
 }
 
-.white{
+.white {
     background-color: white;
+}
+
+.lb-md {
+    font-size: 11px;
+    padding: 12px;
+}
+
+.categ {
+    font-size: 18px;
+}
+
+.btn-primary {
+    background-color: #9980FA;
+    border-color: #9980FA;
+}
+
+    .btn-primary:hover {
+        background-color: #8973E1;
+        border-color: #8973E1;
+    }
+
+.sortare {
+    background-color: #e9ebee;
+    border-radius: 5px;
+    padding: 15px 0px 1px 0px;
+}
+
+.search-bar {
+    margin-top: 0.5em;
+    width: 250px;
+}
+
+.inline {
+    display: inline;
 }
