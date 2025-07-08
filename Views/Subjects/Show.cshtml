@@ -25,6 +25,57 @@
             <div class="clearfix"></div>
             <br />
 
+            @* Like/Dislike Section *@
+            <div class="like-section">
+                <div class="like-stats">
+                    <span class="label label-success">
+                        <i class="glyphicon glyphicon-thumbs-up"></i> @ViewBag.LikesCount Like-uri
+                    </span>
+                    <span class="label label-danger">
+                        <i class="glyphicon glyphicon-thumbs-down"></i> @ViewBag.DislikesCount Dislike-uri
+                    </span>
+                </div>
+                <br />
+                
+                @if (ViewBag.isUser || ViewBag.isModerator || ViewBag.isAdmin)
+                {
+                    <div class="like-buttons">
+                        @using (Html.BeginForm("Like", "Subjects", new { id = Model.SubjectID }, FormMethod.Post, new { @class = "like-form", style = "display: inline;" }))
+                        {
+                            if (ViewBag.UserHasLiked)
+                            {
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="glyphicon glyphicon-thumbs-up"></i> Anuleaza Like
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <i class="glyphicon glyphicon-thumbs-up"></i> Like
+                                </button>
+                            }
+                        }
+                        
+                        @using (Html.BeginForm("Dislike", "Subjects", new { id = Model.SubjectID }, FormMethod.Post, new { @class = "dislike-form", style = "display: inline; margin-left: 10px;" }))
+                        {
+                            if (ViewBag.UserHasDisliked)
+                            {
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="glyphicon glyphicon-thumbs-down"></i> Anuleaza Dislike
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <i class="glyphicon glyphicon-thumbs-down"></i> Dislike
+                                </button>
+                            }
+                        }
+                    </div>
+                    <br />
+                }
+            </div>
+
             @if (ViewBag.currentUser == Model.UserID || ViewBag.isModerator || ViewBag.isAdmin)
             {
                 if (ViewBag.currentUser == Model.UserID)

@@ -44,6 +44,7 @@ namespace OpenDiscussionPlatform.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Reply> Replies { get; set; }
+        public DbSet<SubjectLike> SubjectLikes { get; set; }
 
         public static ApplicationDbContext Create()
         {
