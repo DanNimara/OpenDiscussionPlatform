@@ -26,6 +26,7 @@ namespace OpenDiscussionPlatform.Models
         public virtual Category Category { get; set; }
         public virtual ApplicationUser User { get; set; }
         public virtual ICollection<Reply> Replies { get; set; }
+        public virtual ICollection<SubjectLike> SubjectLikes { get; set; }
 
         public IEnumerable<SelectListItem> Categs { get; set; }
     }

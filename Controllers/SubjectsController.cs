@@ -70,6 +70,25 @@ namespace OpenDiscussionPlatform.Controllers
                 ViewBag.Replies = subject.Replies.OrderBy(r => r.Date).ToArray();
             }
 
+            // Get like/dislike data
+            var likes = db.SubjectLikes.Where(sl => sl.SubjectID == id);
+            ViewBag.LikesCount = likes.Count(sl => sl.IsLike);
+            ViewBag.DislikesCount = likes.Count(sl => !sl.IsLike);
+            
+            // Check current user's like status
+            if (User.Identity.IsAuthenticated)
+            {
+                string currentUserId = User.Identity.GetUserId();
+                var userLike = likes.FirstOrDefault(sl => sl.UserID == currentUserId);
+                ViewBag.UserHasLiked = userLike?.IsLike == true;
+                ViewBag.UserHasDisliked = userLike?.IsLike == false;
+            }
+            else
+            {
+                ViewBag.UserHasLiked = false;
+                ViewBag.UserHasDisliked = false;
+            }
+
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.Message = TempData["message"];
@@ -348,6 +367,95 @@ namespace OpenDiscussionPlatform.Controllers
             return cover;
         }
 
+        // POST: Like
+        [Authorize(Roles = "User, Moderator, Admin")]
+        [HttpPost]
+        public ActionResult Like(int id)
+        {
+            string currentUserId = User.Identity.GetUserId();
+            
+            // Check if user already has a like/dislike for this subject
+            var existingLike = db.SubjectLikes.FirstOrDefault(sl => sl.SubjectID == id && sl.UserID == currentUserId);
+            
+            if (existingLike != null)
+            {
+                if (existingLike.IsLike)
+                {
+                    // User already liked this, remove the like
+                    db.SubjectLikes.Remove(existingLike);
+                    TempData["message"] = "Like-ul a fost anulat!";
+                }
+                else
+                {
+                    // User disliked this, change to like
+                    existingLike.IsLike = true;
+                    existingLike.Date = DateTime.Now;
+                    TempData["message"] = "Ai dat like la acest subiect!";
+                }
+            }
+            else
+            {
+                // User hasn't voted, add a like
+                var newLike = new SubjectLike
+                {
+                    SubjectID = id,
+                    UserID = currentUserId,
+                    IsLike = true,
+                    Date = DateTime.Now
+                };
+                db.SubjectLikes.Add(newLike);
+                TempData["message"] = "Ai dat like la acest subiect!";
+            }
+            
+            db.SaveChanges();
+            return Redirect("/Subjects/Show/" + id);
+        }
+
+        // POST: Dislike
+        [Authorize(Roles = "User, Moderator, Admin")]
+        [HttpPost]
+        public ActionResult Dislike(int id)
+        {
+            string currentUserId = User.Identity.GetUserId();
+            
+            // Check if user already has a like/dislike for this subject
+            var existingLike = db.SubjectLikes.FirstOrDefault(sl => sl.SubjectID == id && sl.UserID == currentUserId);
+            
+            if (existingLike != null)
+            {
+                if (!existingLike.IsLike)
+                {
+                    // User already disliked this, remove the dislike
+                    db.SubjectLikes.Remove(existingLike);
+                    TempData["message"] = "Dislike-ul a fost anulat!";
+                }
+                else
+                {
+                    // User liked this, change to dislike
+                    existingLike.IsLike = false;
+                    existingLike.Date = DateTime.Now;
+                    TempData["message"] = "Ai dat dislike la acest subiect!";
+                }
+            }
+            else
+            {
+                // User hasn't voted, add a dislike
+                var newLike = new SubjectLike
+                {
+                    SubjectID = id,
+                    UserID = currentUserId,
+                    IsLike = false,
+                    Date = DateTime.Now
+                };
+                db.SubjectLikes.Add(newLike);
+                TempData["message"] = "Ai dat dislike la acest subiect!";
+            }
+            
+            db.SaveChanges();
+            return Redirect("/Subjects/Show/" + id);
+        }
+
+        #region Helpers
         private void SetAccessRights()
         {
             ViewBag.isUser = User.IsInRole("User");
