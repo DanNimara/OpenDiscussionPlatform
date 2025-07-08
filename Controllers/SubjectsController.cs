@@ -80,8 +80,8 @@ namespace OpenDiscussionPlatform.Controllers
             {
                 string currentUserId = User.Identity.GetUserId();
                 var userLike = likes.FirstOrDefault(sl => sl.UserID == currentUserId);
-                ViewBag.UserHasLiked = userLike?.IsLike == true;
-                ViewBag.UserHasDisliked = userLike?.IsLike == false;
+                ViewBag.UserHasLiked = userLike != null && userLike.IsLike;
+                ViewBag.UserHasDisliked = userLike != null && !userLike.IsLike;
             }
             else
             {
